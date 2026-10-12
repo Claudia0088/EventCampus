@@ -1,56 +1,96 @@
+const API_BASE_URL =
+    `http://${window.location.hostname}:8080/api/auth`;
+
 const loginForm = document.getElementById("loginForm");
 const loginMessage = document.getElementById("loginMessage");
 
-loginForm.addEventListener("submit", async function(event) {
+// Redirection selon le rôle de l'utilisateur.
+function obtenirPageSelonRole(role) {
+    const roleNormalise = String(role || "")
+        .trim()
+        .toUpperCase();
 
-    event.preventDefault();
+    const pages = {
+        USER: "espace-user.html",
+        MODERATOR: "espace-moderator.html",
+        ADMIN: "espace-admin.html"
+    };
 
-    const email = document.getElementById("email").value;
-    const password = document.getElementById("password").value;
+    return pages[roleNormalise] || null;
+}
 
-    loginMessage.textContent = "Connexion en cours...";
+if (!loginForm || !loginMessage) {
+    console.error(
+        "Formulaire de connexion ou message introuvable."
+    );
+} else {
+    loginForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
 
-    try {
+        const email =
+            document.getElementById("email").value.trim();
 
-        const response = await fetch("http://localhost:8080/api/auth/login", {
-            method: "POST",
+        const password =
+            document.getElementById("password").value;
 
-            headers: {
-                "Content-Type": "application/json"
-            },
+        loginMessage.textContent = "Connexion en cours...";
 
-            body: JSON.stringify({
-                email: email,
-                password: password
-            })
-        });
+        try {
+            const response = await fetch(
+                `${API_BASE_URL}/login`,
+                {
+                    method: "POST",
+                    credentials: "include",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        password: password
+                    })
+                }
+            );
 
-        const result = await response.text();
+            const result = await response.json();
 
-        if (result === "Connexion réussie") {
+            if (!response.ok) {
+                loginMessage.textContent =
+                    result.message ||
+                    "La connexion a échoué.";
+                return;
+            }
 
-            loginMessage.textContent = "Connexion réussie !";
+            const page = obtenirPageSelonRole(result.role);
+
+            if (!page) {
+                loginMessage.textContent =
+                    "Le rôle de ce compte est inconnu.";
+                return;
+            }
 
             localStorage.setItem("loggedIn", "true");
-            localStorage.setItem("userEmail", email);
+            localStorage.setItem(
+                "userEmail",
+                result.email || email
+            );
 
-            setTimeout(function() {
-                window.location.href = "mon-espace.html";
-            }, 1000);
+            loginMessage.textContent =
+                "Connexion réussie ! Redirection...";
 
-        } else {
+            window.location.href = new URL(
+                page,
+                window.location.href
+            ).href;
 
-            loginMessage.textContent = result;
+        } catch (error) {
+            console.error(
+                "Erreur de connexion :",
+                error
+            );
 
+            loginMessage.textContent =
+                "Impossible de communiquer avec le serveur.";
         }
-
-    } catch (error) {
-
-        console.error(error);
-
-        loginMessage.textContent =
-            "Impossible de contacter le serveur.";
-
-    }
-
-});
+    });
+}

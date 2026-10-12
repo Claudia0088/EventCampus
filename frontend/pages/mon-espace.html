@@ -1,88 +1,358 @@
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
-
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#173b32">
 
-    <title>Mon espace - EventCampus</title>
+    <title>Mon espace | EventCampus</title>
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/espace.css">
 
+    <script src="../js/espace.js" defer></script>
 </head>
 
-<body>
+<body class="dashboard-page">
 
-    <header>
+    <div class="dashboard-layout">
 
-        <div class="logo">
-            <a href="../index.html">
-                EventCampus
-            </a>
-        </div>
+        <!-- MENU LATERAL -->
+        <aside class="sidebar" id="sidebar">
 
-        <nav class="mainNavigation">
-
-            <a href="../index.html">
-                Accueil
-            </a>
-
-            <a href="evenements.html">
-                Événements
+            <a class="brand" href="../index.html">
+                <span class="brand-icon">E</span>
+                <span class="brand-text">
+                    <strong>EventCampus</strong>
+                    <small>La vie étudiante, ensemble</small>
+                </span>
             </a>
 
-            <a href="mon-espace.html">
-                Mon espace
-            </a>
-
-        </nav>
-
-    </header>
-
-
-    <main>
-
-        <section class="spaceSection">
-
-            <div class="spaceCard">
-
-                <h1>
-                    Mon espace
-                </h1>
-
-                <p>
-                    Bienvenue sur votre espace EventCampus.
-                </p>
-
-                <p id="userEmail"></p>
-
-                <button
-                    id="logoutButton"
-                    class="primaryButton"
-                >
-                    Se déconnecter
-                </button>
-
+            <div class="sidebar-profile">
+                <div class="avatar" id="userAvatar">E</div>
+                <div class="sidebar-user-info">
+                    <strong id="sidebarUserName">Étudiant</strong>
+                    <span id="sidebarUserRole">Chargement...</span>
+                </div>
             </div>
 
-        </section>
+            <nav class="sidebar-nav" aria-label="Navigation principale">
+                <p class="nav-heading">MON ESPACE</p>
 
-    </main>
+                <a href="#accueil" class="nav-link active">
+                    <span class="nav-icon">⌂</span>
+                    Tableau de bord
+                </a>
 
+                <a href="#evenements" class="nav-link">
+                    <span class="nav-icon">▦</span>
+                    Événements
+                </a>
 
-    <footer>
+                <a href="#inscriptions" class="nav-link" id="registrationsNav">
+                    <span class="nav-icon">✓</span>
+                    Mes inscriptions
+                </a>
 
-        <p>
-            © 2026 EventCampus - Projet étudiant
-        </p>
+                <a href="#favoris" class="nav-link" id="favoritesNav">
+                    <span class="nav-icon">♡</span>
+                    Mes favoris
+                </a>
 
-    </footer>
+                <div id="moderatorNavigation" hidden>
+                    <p class="nav-heading">MODÉRATION</p>
 
+                    <a href="#moderation" class="nav-link">
+                        <span class="nav-icon">⚑</span>
+                        Modération
+                    </a>
+                </div>
 
-    <script src="../js/espace.js"></script>
+                <div id="adminNavigation" hidden>
+                    <p class="nav-heading">ADMINISTRATION</p>
+
+                    <a href="#administration" class="nav-link">
+                        <span class="nav-icon">⚙</span>
+                        Administration
+                    </a>
+                </div>
+
+                <p class="nav-heading">MON COMPTE</p>
+
+                <a href="#profil" class="nav-link">
+                    <span class="nav-icon">◎</span>
+                    Mon profil
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="campus-note">
+                    <span class="campus-note-icon">✦</span>
+                    <strong>La vie de campus</strong>
+                    <p>Des rencontres, des projets et des souvenirs à créer.</p>
+                </div>
+
+                <button type="button" class="logout-button" id="logoutButton">
+                    <span>↪</span>
+                    Se déconnecter
+                </button>
+            </div>
+
+        </aside>
+
+        <!-- CONTENU PRINCIPAL -->
+        <main class="dashboard-main">
+
+            <header class="topbar">
+                <button
+                    type="button"
+                    class="menu-toggle"
+                    id="menuToggle"
+                    aria-label="Ouvrir le menu"
+                    aria-expanded="false">
+                    ☰
+                </button>
+
+                <div class="breadcrumb">
+                    <span>EventCampus</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Mon espace</strong>
+                </div>
+
+                <a href="../index.html" class="topbar-link">
+                    Voir le site <span>↗</span>
+                </a>
+            </header>
+
+            <div class="dashboard-content" id="accueil">
+
+                <!-- MESSAGE D'ERREUR -->
+                <div class="dashboard-alert" id="dashboardAlert" hidden></div>
+
+                <!-- BIENVENUE -->
+                <section class="welcome-section">
+                    <div class="welcome-content">
+                        <span class="eyebrow">
+                            <span class="status-dot"></span>
+                            TON ESPACE CAMPUS
+                        </span>
+
+                        <h1>
+                            Bonjour <span id="welcomeName">et bienvenue</span> !
+                        </h1>
+
+                        <p id="welcomeDescription">
+                            Prépare-toi à découvrir ce qui se passe sur ton campus.
+                        </p>
+
+                        <a href="#evenements" class="primary-button">
+                            Découvrir les événements <span>→</span>
+                        </a>
+                    </div>
+
+                    <div class="welcome-illustration" aria-hidden="true">
+                        <div class="illustration-sun"></div>
+                        <div class="illustration-circle"></div>
+                        <div class="illustration-book">✦</div>
+                        <div class="illustration-caption">
+                            <span>UN CAMPUS</span>
+                            <strong>QUI BOUGE !</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- INFORMATIONS DU COMPTE -->
+                <section class="account-strip" id="profil">
+                    <div class="account-avatar" id="profileAvatar">E</div>
+
+                    <div class="account-details">
+                        <span class="muted-label">CONNECTÉ EN TANT QUE</span>
+                        <strong id="userFullName">Chargement du profil...</strong>
+                        <span id="userEmail">Vérification de la session...</span>
+                    </div>
+
+                    <div class="account-role">
+                        <span class="role-badge" id="userRoleBadge">Chargement...</span>
+                        <span class="muted-label">Mon rôle</span>
+                    </div>
+                </section>
+
+                <!-- RACCOURCIS -->
+                <section class="section-block">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">POUR COMMENCER</span>
+                            <h2>Que veux-tu faire ?</h2>
+                        </div>
+                    </div>
+
+                    <div class="quick-actions">
+
+                        <a href="#evenements" class="quick-action">
+                            <span class="quick-action-icon icon-green">▦</span>
+                            <span class="quick-action-text">
+                                <strong>Explorer les événements</strong>
+                                <small>Découvrir les activités du campus</small>
+                            </span>
+                            <span class="quick-arrow">→</span>
+                        </a>
+
+                        <a href="#inscriptions" class="quick-action" id="registrationAction">
+                            <span class="quick-action-icon icon-yellow">✓</span>
+                            <span class="quick-action-text">
+                                <strong>Mes inscriptions</strong>
+                                <small>Retrouver mes participations</small>
+                            </span>
+                            <span class="quick-arrow">→</span>
+                        </a>
+
+                        <a href="#moderation" class="quick-action" id="moderationAction" hidden>
+                            <span class="quick-action-icon icon-purple">⚑</span>
+                            <span class="quick-action-text">
+                                <strong>Espace de modération</strong>
+                                <small>Accéder aux outils de modération</small>
+                            </span>
+                            <span class="quick-arrow">→</span>
+                        </a>
+
+                        <a href="#administration" class="quick-action" id="administrationAction" hidden>
+                            <span class="quick-action-icon icon-blue">⚙</span>
+                            <span class="quick-action-text">
+                                <strong>Administration</strong>
+                                <small>Accéder à la gestion de la plateforme</small>
+                            </span>
+                            <span class="quick-arrow">→</span>
+                        </a>
+
+                    </div>
+                </section>
+
+                <!-- ÉVÉNEMENTS -->
+                <section class="section-block" id="evenements">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">LA VIE DU CAMPUS</span>
+                            <h2>Les événements</h2>
+                            <p class="section-description">
+                                Retrouve ici les activités et rendez-vous de la communauté.
+                            </p>
+                        </div>
+
+                        <span class="coming-soon-badge">Catalogue à connecter</span>
+                    </div>
+
+                    <div class="empty-state">
+                        <div class="empty-state-icon">▦</div>
+                        <h3>Les événements arrivent ici !</h3>
+                        <p>
+                            Le catalogue sera relié à la base de données
+                            lorsque les fonctionnalités de gestion des événements
+                            seront développées.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- INSCRIPTIONS -->
+                <section class="section-block" id="inscriptions">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">MON AGENDA</span>
+                            <h2>Mes inscriptions</h2>
+                            <p class="section-description">
+                                Les événements auxquels tu participes seront affichés ici.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="empty-state compact-empty-state">
+                        <div class="empty-state-icon">✓</div>
+                        <h3>Ton agenda personnel</h3>
+                        <p>
+                            Cette section affichera tes inscriptions réelles
+                            une fois l'API des inscriptions mise en place.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- FAVORIS -->
+                <section class="section-block" id="favoris">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">À GARDER EN TÊTE</span>
+                            <h2>Mes favoris</h2>
+                        </div>
+                    </div>
+
+                    <div class="empty-state compact-empty-state">
+                        <div class="empty-state-icon">♡</div>
+                        <h3>Les événements que tu aimes</h3>
+                        <p>
+                            Tu pourras retrouver ici les événements que tu auras ajoutés
+                            à tes favoris.
+                        </p>
+                    </div>
+                </section>
+
+                <!-- ESPACE MODÉRATEUR -->
+                <section class="section-block role-section" id="moderation" hidden>
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">ESPACE ÉQUIPE</span>
+                            <h2>Modération</h2>
+                            <p class="section-description">
+                                Les outils de suivi et de modération seront regroupés ici.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="role-information">
+                        <span class="role-information-icon">⚑</span>
+                        <div>
+                            <h3>Contribuer à un campus respectueux</h3>
+                            <p>
+                                La gestion des signalements et des contenus sera ajoutée
+                                dans une prochaine étape.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ESPACE ADMINISTRATEUR -->
+                <section class="section-block role-section" id="administration" hidden>
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">ESPACE ADMINISTRATEUR</span>
+                            <h2>Administration de la plateforme</h2>
+                            <p class="section-description">
+                                Les outils d'administration seront accessibles ici.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="role-information">
+                        <span class="role-information-icon">⚙</span>
+                        <div>
+                            <h3>Garder EventCampus organisé</h3>
+                            <p>
+                                La gestion des utilisateurs, des rôles et des statistiques
+                                sera développée progressivement.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PIED DE PAGE -->
+                <footer class="dashboard-footer">
+                    <a class="footer-brand" href="../index.html">EventCampus</a>
+                    <span>La vie étudiante, ensemble.</span>
+                    <span>© <span id="currentYear"></span> EventCampus</span>
+                </footer>
+
+            </div>
+        </main>
+    </div>
+
+    <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
 
 </body>
-
 </html>

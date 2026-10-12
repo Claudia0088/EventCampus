@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="fr" data-required-role="ADMIN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Espace administrateur | EventCampus</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/espace.css">
+
+    <script src="../js/espace.js" defer></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+            <a href="../index.html" class="brand">
+                <span class="brand-icon">E</span>
+                <span>EventCampus</span>
+            </a>
+
+            <div class="sidebar-profile">
+                <div class="avatar" id="userAvatar">E</div>
+                <div>
+                    <strong id="sidebarUserName">Administrateur</strong>
+                    <p id="sidebarUserRole">Administration</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#accueil" class="active">Accueil</a>
+                <a href="#utilisateurs">Utilisateurs</a>
+                <a href="#roles">Gestion des rôles</a>
+                <a href="#evenements">Événements</a>
+                <a href="#profil">Mon profil</a>
+            </nav>
+
+            <button type="button" id="logoutButton"
+                    class="logout-button">
+                Se déconnecter
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+                <button type="button" id="menuToggle"
+                        aria-label="Ouvrir le menu"
+                        aria-expanded="false">
+                    ☰
+                </button>
+
+                <span>Administration EventCampus</span>
+
+                <span class="role-badge" id="userRoleBadge">
+                    Administrateur
+                </span>
+            </header>
+
+            <div id="dashboardAlert" role="alert" hidden></div>
+
+            <section id="accueil" class="welcome-panel">
+                <p class="eyebrow">PILOTAGE DE LA PLATEFORME</p>
+
+                <h1>
+                    Bonjour <span id="welcomeName">!</span>
+                </h1>
+
+                <p id="welcomeDescription">
+                    Supervise la plateforme EventCampus et contribue
+                    à son bon fonctionnement.
+                </p>
+            </section>
+
+            <section id="utilisateurs" class="dashboard-section">
+                <h2>Gestion des utilisateurs</h2>
+
+                <div class="dashboard-card">
+                    <h3>Comptes de la plateforme</h3>
+
+                    <p>
+                        Cette rubrique permettra de consulter les comptes,
+                        de vérifier leur statut et de gérer les utilisateurs.
+                    </p>
+
+                    <p>
+                        <strong>Statut :</strong>
+                        fonctionnalité à connecter au backend.
+                    </p>
+                </div>
+            </section>
+
+            <section id="roles" class="dashboard-section">
+                <h2>Gestion des rôles</h2>
+
+                <div class="dashboard-card">
+                    <h3>Autorisations des comptes</h3>
+
+                    <p>
+                        L'administration pourra gérer les rôles
+                        USER, MODERATOR et ADMIN selon les règles
+                        de sécurité de l'application.
+                    </p>
+
+                    <p>
+                        La modification réelle des rôles sera ajoutée
+                        après la mise en place des autorisations backend.
+                    </p>
+                </div>
+            </section>
+
+            <section id="evenements" class="dashboard-section">
+                <h2>Gestion des événements</h2>
+
+                <div class="dashboard-card">
+                    <h3>Vue générale des événements</h3>
+
+                    <p>
+                        Cette rubrique permettra de superviser les événements
+                        publiés sur le campus et leur état de modération.
+                    </p>
+                </div>
+            </section>
+
+            <section id="profil" class="dashboard-section">
+                <h2>Mon profil</h2>
+
+                <div class="dashboard-card">
+                    <div class="avatar" id="profileAvatar">E</div>
+
+                    <p>
+                        <strong>Nom :</strong>
+                        <span id="userFullName">Chargement...</span>
+                    </p>
+
+                    <p>
+                        <strong>E-mail :</strong>
+                        <span id="userEmail">Chargement...</span>
+                    </p>
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                © <span id="currentYear"></span> EventCampus
+            </footer>
+
+        </main>
+
+        <div id="sidebarOverlay" hidden></div>
+
+    </div>
+</body>
+</html>

@@ -1,0 +1,231 @@
+
+<!DOCTYPE html>
+<html lang="fr" data-required-role="USER">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon espace étudiant | EventCampus</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/espace.css">
+    <script src="../js/espace.js" defer></script>
+</head>
+<body class="dashboard-page">
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+            <a href="../index.html" class="brand">
+                <span class="brand-icon">E</span>
+                <span class="brand-text">
+                    <strong>EventCampus</strong>
+                    <small>LA VIE ÉTUDIANTE, EN MIEUX</small>
+                </span>
+            </a>
+
+            <div class="sidebar-profile">
+                <div class="avatar" id="userAvatar">C</div>
+                <div class="sidebar-user-info">
+                    <strong id="sidebarUserName">Chargement...</strong>
+                    <span id="sidebarUserRole">Membre du campus</span>
+                </div>
+            </div>
+
+            <p class="nav-heading">MENU PRINCIPAL</p>
+            <nav class="sidebar-nav">
+                <a href="#accueil" class="nav-link active">
+                    <span class="nav-icon">⌂</span>
+                    Accueil
+                </a>
+                <a href="#evenements" class="nav-link">
+                    <span class="nav-icon">▦</span>
+                    Découvrir les événements
+                </a>
+                <a href="#inscriptions" class="nav-link" id="registrationsNav">
+                    <span class="nav-icon">✓</span>
+                    Mes inscriptions
+                </a>
+                <a href="#favoris" class="nav-link">
+                    <span class="nav-icon">♡</span>
+                    Mes favoris
+                </a>
+                <a href="#profil" class="nav-link">
+                    <span class="nav-icon">○</span>
+                    Mon profil
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <div class="campus-note">
+                    <span class="campus-note-icon">✦</span>
+                    <strong>La vie sur ton campus</strong>
+                    <p>Découvre, partage et participe aux événements qui font vivre ta communauté.</p>
+                </div>
+
+                <button type="button" id="logoutButton" class="logout-button">
+                    <span>↪</span>
+                    Se déconnecter
+                </button>
+            </div>
+        </aside>
+
+        <main class="dashboard-main">
+            <header class="topbar">
+                <button type="button" id="menuToggle" class="menu-toggle"
+                    aria-label="Ouvrir le menu" aria-expanded="false">☰</button>
+
+                <div class="breadcrumb">
+                    <span>EventCampus</span>
+                    <span class="breadcrumb-separator">/</span>
+                    <strong>Mon espace</strong>
+                </div>
+
+                <a href="../index.html" class="topbar-link">← Site principal</a>
+            </header>
+
+            <div class="dashboard-content">
+                <div id="dashboardAlert" class="dashboard-alert"
+                    role="alert" hidden></div>
+
+                <section id="accueil" class="welcome-section">
+                    <div class="welcome-content">
+                        <span class="eyebrow">
+                            <span class="status-dot"></span>
+                            TON CAMPUS, TES ACTIVITÉS
+                        </span>
+
+                        <h1>Bonjour <span id="welcomeName">Claudia</span> !</h1>
+
+                        <p id="welcomeDescription">
+                            Découvre les activités du campus, rencontre de
+                            nouvelles personnes et prépare tes prochaines sorties.
+                        </p>
+
+                        <a href="#evenements" class="primary-button">
+                            Explorer les événements <span>→</span>
+                        </a>
+                    </div>
+
+                    <div class="welcome-illustration" aria-hidden="true">
+                        <div class="illustration-sun"></div>
+                        <div class="illustration-circle"></div>
+                        <div class="illustration-book">✦</div>
+                        <div class="illustration-caption">
+                            <span>EXPLORE</span>
+                            <strong>TON CAMPUS</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="account-strip">
+                    <div class="account-avatar" id="profileAvatar">C</div>
+
+                    <div class="account-details">
+                        <span class="muted-label">TON COMPTE</span>
+                        <strong id="userFullName">Chargement...</strong>
+                        <span id="userEmail">Chargement...</span>
+                    </div>
+
+                    <div class="account-role">
+                        <span class="muted-label">STATUT</span>
+                        <span class="role-badge" id="userRoleBadge">Étudiant</span>
+                    </div>
+                </section>
+
+                <section id="evenements" class="section-block">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">À DÉCOUVRIR</span>
+                            <h2>Découvrir les événements</h2>
+                            <p class="section-description">
+                                Trouve les activités qui te correspondent et
+                                profite pleinement de la vie étudiante.
+                            </p>
+                        </div>
+                        <span class="coming-soon-badge">Catalogue à venir</span>
+                    </div>
+
+                    <div class="empty-state">
+                        <div class="empty-state-icon">▦</div>
+                        <h3>Les événements arrivent bientôt !</h3>
+                        <p>
+                            Nous préparons le catalogue des événements du campus.
+                            Tu pourras bientôt consulter les activités et t'y inscrire.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="inscriptions" class="section-block">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">TON PROGRAMME</span>
+                            <h2>Mes inscriptions</h2>
+                            <p class="section-description">
+                                Retrouve ici les événements auxquels tu participes.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="empty-state compact-empty-state">
+                        <div class="empty-state-icon">✓</div>
+                        <h3>Ton agenda étudiant</h3>
+                        <p>
+                            Tes prochaines participations apparaîtront ici
+                            lorsque les inscriptions seront disponibles.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="favoris" class="section-block">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">TES PRÉFÉRENCES</span>
+                            <h2>Mes favoris</h2>
+                            <p class="section-description">
+                                Garde tes événements préférés à portée de main.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="empty-state compact-empty-state">
+                        <div class="empty-state-icon">♡</div>
+                        <h3>Un espace pour tes coups de cœur</h3>
+                        <p>
+                            Tu pourras retrouver ici les événements que tu auras
+                            ajoutés à tes favoris.
+                        </p>
+                    </div>
+                </section>
+
+                <section id="profil" class="section-block">
+                    <div class="section-heading">
+                        <div>
+                            <span class="eyebrow">INFORMATIONS PERSONNELLES</span>
+                            <h2>Mon profil</h2>
+                            <p class="section-description">
+                                Retrouve les informations de ton compte EventCampus.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="role-information">
+                        <div class="role-information-icon">♙</div>
+                        <div>
+                            <h3>Bienvenue dans la communauté !</h3>
+                            <p>
+                                Ton compte te permet de découvrir les événements
+                                et de participer à la vie étudiante.
+                            </p>
+                        </div>
+                    </div>
+                </section>
+
+                <footer class="dashboard-footer">
+                    <a href="../index.html" class="footer-brand">EventCampus</a>
+                    <span>© <span id="currentYear"></span> EventCampus · La vie étudiante, en mieux.</span>
+                </footer>
+            </div>
+        </main>
+
+        <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
+    </div>
+</body>
+</html>
