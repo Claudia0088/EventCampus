@@ -3,6 +3,7 @@ package com.eventcampus.backend.controller;
 import com.eventcampus.backend.dto.LoginRequest;
 import com.eventcampus.backend.entity.User;
 import com.eventcampus.backend.service.AuthService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,17 +18,13 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
-
-        User user = authService.login(
-                request.getEmail(),
-                request.getPassword()
-        );
-
-        if (user == null) {
-            return "Email ou mot de passe incorrect";
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
+        try {
+            User user = authService.login(request);
+            return ResponseEntity.ok(user);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
-
-        return "Connexion réussie";
     }
+
 }
