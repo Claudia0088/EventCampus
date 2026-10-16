@@ -1,0 +1,489 @@
+
+<!DOCTYPE html>
+<html lang="fr" data-required-role="USER">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Mon espace étudiant | EventCampus</title>
+    <meta
+        name="description"
+        content="Gérez vos événements, inscriptions, favoris et informations personnelles sur EventCampus."
+    >
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/espace.css">
+
+    <script src="../js/espace.js" defer></script>
+</head>
+
+<body>
+<div class="dashboard-layout">
+
+    <!-- =============== MENU LATÉRAL =============== -->
+    <aside class="sidebar" id="sidebar">
+
+        <a class="brand" href="../index.html" aria-label="EventCampus - Accueil">
+            <span class="brand-icon" aria-hidden="true">E</span>
+            <span>EventCampus</span>
+        </a>
+
+        <div class="sidebar-profile">
+            <div id="userAvatar" aria-hidden="true">ET</div>
+            <div>
+                <strong id="sidebarUserName">Chargement...</strong>
+                <p id="sidebarUserRole">Étudiant</p>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav" aria-label="Navigation principale">
+
+            <a href="#accueil" class="nav-link active" data-section="accueil">
+                <span aria-hidden="true">⌂</span>
+                <span>Accueil</span>
+            </a>
+
+            <a href="#evenements" class="nav-link" data-section="evenements">
+                <span aria-hidden="true">▦</span>
+                <span>Événements</span>
+            </a>
+
+            <a
+                href="#inscriptions"
+                class="nav-link"
+                data-section="inscriptions"
+                id="registrationsNav"
+            >
+                <span aria-hidden="true">✓</span>
+                <span>Mes inscriptions</span>
+            </a>
+
+            <a href="#favoris" class="nav-link" data-section="favoris">
+                <span aria-hidden="true">♡</span>
+                <span>Mes favoris</span>
+            </a>
+
+            <a href="#profil" class="nav-link" data-section="profil">
+                <span aria-hidden="true">◎</span>
+                <span>Mon profil</span>
+            </a>
+
+        </nav>
+
+        <button type="button" id="logoutButton" class="logout-button">
+            <span aria-hidden="true">↪</span>
+            <span>Déconnexion</span>
+        </button>
+
+    </aside>
+
+    <div id="sidebarOverlay" class="sidebar-overlay"></div>
+
+    <!-- =============== CONTENU PRINCIPAL =============== -->
+    <main class="dashboard-main">
+
+        <header class="topbar">
+
+            <button
+                type="button"
+                class="menu-toggle"
+                id="menuToggle"
+                aria-label="Ouvrir le menu"
+                aria-controls="sidebar"
+                aria-expanded="false"
+            >
+                ☰
+            </button>
+
+            <div class="breadcrumb">
+                <a href="../index.html">EventCampus</a>
+                <span aria-hidden="true">/</span>
+                <span>Mon espace étudiant</span>
+            </div>
+
+            <a class="topbar-link" href="../index.html">
+                <span aria-hidden="true">←</span>
+                <span>Retour au site</span>
+            </a>
+
+        </header>
+
+        <div class="dashboard-content">
+
+            <div
+                id="dashboardAlert"
+                role="status"
+                aria-live="polite"
+                hidden
+            ></div>
+
+            <!-- =============== ACCUEIL =============== -->
+            <section class="welcome-section dashboard-section" id="accueil">
+
+                <div class="welcome-text">
+                    <span class="welcome-eyebrow">TON CAMPUS, TES ÉVÉNEMENTS</span>
+
+                    <h1>
+                        Bonjour,
+                        <span id="welcomeName">étudiant</span> !
+                    </h1>
+
+                    <p id="welcomeDescription">
+                        Découvre les activités de ton campus, retrouve tes
+                        inscriptions et garde tes événements préférés à portée de main.
+                    </p>
+
+                    <a href="#evenements" class="primary-button">
+                        Explorer les événements
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+                <div class="welcome-illustration" aria-hidden="true">
+                    <div class="illustration-circle"></div>
+                    <div class="illustration-sun"></div>
+                    <div class="illustration-book">E</div>
+                    <div class="illustration-caption">La vie étudiante</div>
+                </div>
+
+            </section>
+
+            <!-- =============== INFORMATIONS DU COMPTE =============== -->
+            <section class="account-strip" aria-label="Informations du compte">
+
+                <div id="profileAvatar" aria-hidden="true">ET</div>
+
+                <div class="account-details">
+                    <h2 id="userFullName">Chargement du profil...</h2>
+                    <p id="userEmail">Chargement de l'adresse e-mail...</p>
+                </div>
+
+                <span id="userRoleBadge">Étudiant</span>
+
+            </section>
+
+            <!-- =============== ÉVÉNEMENTS =============== -->
+            <section class="dashboard-section" id="evenements">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">À DÉCOUVRIR</span>
+                        <h2>Les événements du campus</h2>
+                        <p class="section-description">
+                            Trouve des activités, rencontre d'autres étudiants
+                            et participe à la vie de ton campus.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="event-toolbar">
+                    <label class="event-search">
+                        <span aria-hidden="true">⌕</span>
+                        <input
+                            type="search"
+                            id="eventSearch"
+                            placeholder="Rechercher un événement..."
+                            aria-label="Rechercher un événement"
+                        >
+                    </label>
+
+                    <label class="event-filter">
+                        <span class="sr-only">Filtrer par catégorie</span>
+                        <select id="eventCategoryFilter">
+                            <option value="">Toutes les catégories</option>
+                            <option value="conference">Conférences</option>
+                            <option value="atelier">Ateliers</option>
+                            <option value="soiree">Soirées</option>
+                            <option value="sport">Sport</option>
+                            <option value="culture">Culture</option>
+                        </select>
+                    </label>
+                </div>
+
+                <!-- Les événements réels seront chargés ici ultérieurement. -->
+                <div class="event-grid" id="eventsContainer">
+
+                    <article class="event-card event-card-placeholder">
+                        <div class="event-card-image event-image-conference">
+                            <span class="event-category">Conférence</span>
+                            <span class="event-image-symbol" aria-hidden="true">✦</span>
+                        </div>
+
+                        <div class="event-card-content">
+                            <p class="event-date">
+                                <span aria-hidden="true">▦</span>
+                                Date à venir
+                            </p>
+
+                            <h3>Conférences et rencontres</h3>
+
+                            <p class="event-description">
+                                Découvre les rencontres et conférences organisées
+                                par la communauté étudiante.
+                            </p>
+
+                            <p class="event-location">
+                                <span aria-hidden="true">⌖</span>
+                                Lieu à préciser
+                            </p>
+
+                            <div class="event-card-footer">
+                                <span class="event-status status-upcoming">
+                                    À venir
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="secondary-button"
+                                    disabled
+                                    title="Disponible lorsque les événements seront connectés au backend"
+                                >
+                                    Bientôt disponible
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="event-card event-card-placeholder">
+                        <div class="event-card-image event-image-workshop">
+                            <span class="event-category">Atelier</span>
+                            <span class="event-image-symbol" aria-hidden="true">✎</span>
+                        </div>
+
+                        <div class="event-card-content">
+                            <p class="event-date">
+                                <span aria-hidden="true">▦</span>
+                                Date à venir
+                            </p>
+
+                            <h3>Ateliers étudiants</h3>
+
+                            <p class="event-description">
+                                Des activités pour apprendre, partager des idées
+                                et développer de nouvelles compétences.
+                            </p>
+
+                            <p class="event-location">
+                                <span aria-hidden="true">⌖</span>
+                                Lieu à préciser
+                            </p>
+
+                            <div class="event-card-footer">
+                                <span class="event-status status-upcoming">
+                                    À venir
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="secondary-button"
+                                    disabled
+                                    title="Disponible lorsque les événements seront connectés au backend"
+                                >
+                                    Bientôt disponible
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                    <article class="event-card event-card-placeholder">
+                        <div class="event-card-image event-image-campus">
+                            <span class="event-category">Vie étudiante</span>
+                            <span class="event-image-symbol" aria-hidden="true">♡</span>
+                        </div>
+
+                        <div class="event-card-content">
+                            <p class="event-date">
+                                <span aria-hidden="true">▦</span>
+                                Date à venir
+                            </p>
+
+                            <h3>Activités du campus</h3>
+
+                            <p class="event-description">
+                                Retrouve les activités qui favorisent les échanges
+                                et la convivialité entre étudiants.
+                            </p>
+
+                            <p class="event-location">
+                                <span aria-hidden="true">⌖</span>
+                                Lieu à préciser
+                            </p>
+
+                            <div class="event-card-footer">
+                                <span class="event-status status-upcoming">
+                                    À venir
+                                </span>
+
+                                <button
+                                    type="button"
+                                    class="secondary-button"
+                                    disabled
+                                    title="Disponible lorsque les événements seront connectés au backend"
+                                >
+                                    Bientôt disponible
+                                </button>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+
+                <p class="demo-notice">
+                    <span aria-hidden="true">ⓘ</span>
+                    Ces cartes sont des aperçus de démonstration, pas des événements
+                    réels. Les événements publiés seront affichés ici après connexion
+                    à la base de données.
+                </p>
+
+            </section>
+
+            <!-- =============== INSCRIPTIONS =============== -->
+            <section class="dashboard-section" id="inscriptions">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">TON AGENDA</span>
+                        <h2>Mes inscriptions</h2>
+                        <p class="section-description">
+                            Retrouve les événements auxquels tu participes
+                            et les informations associées à tes inscriptions.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Les inscriptions réelles seront chargées ici. -->
+                <div class="registration-list" id="registrationsContainer">
+
+                    <article class="registration-card registration-placeholder">
+
+                        <div class="registration-date-block">
+                            <span class="registration-date-day">--</span>
+                            <span class="registration-date-month">---</span>
+                        </div>
+
+                        <div class="registration-info">
+                            <span class="registration-status status-pending">
+                                En attente de données
+                            </span>
+
+                            <h3>Ton prochain événement apparaîtra ici</h3>
+
+                            <p>
+                                Une fois inscrit à un événement, tu retrouveras
+                                sa date, son lieu et son statut dans cette section.
+                            </p>
+                        </div>
+
+                        <div class="registration-ticket" aria-hidden="true">
+                            <span>▦</span>
+                            <small>Billet</small>
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="section-action">
+                    <a href="#evenements" class="secondary-button">
+                        Découvrir les événements
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+            </section>
+
+            <!-- =============== FAVORIS =============== -->
+            <section class="dashboard-section" id="favoris">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">TA SÉLECTION</span>
+                        <h2>Mes favoris</h2>
+                        <p class="section-description">
+                            Regroupe ici les événements que tu souhaites
+                            retrouver facilement.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Les favoris réels seront chargés ici. -->
+                <div class="event-grid favorites-grid" id="favoritesContainer">
+
+                    <article class="favorite-card favorite-placeholder">
+
+                        <div class="favorite-icon" aria-hidden="true">♡</div>
+
+                        <div class="favorite-content">
+                            <h3>Tes événements préférés</h3>
+
+                            <p>
+                                Les événements que tu ajouteras à tes favoris
+                                apparaîtront ici. Tu pourras les consulter
+                                et les retirer de ta sélection.
+                            </p>
+
+                            <span class="favorite-status">
+                                Fonctionnalité à venir
+                            </span>
+                        </div>
+
+                    </article>
+
+                </div>
+
+                <div class="section-action">
+                    <a href="#evenements" class="secondary-button">
+                        Explorer les événements
+                        <span aria-hidden="true">→</span>
+                    </a>
+                </div>
+
+            </section>
+
+            <!-- =============== PROFIL =============== -->
+            <section class="dashboard-section" id="profil">
+
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">MON COMPTE</span>
+                        <h2>Mon profil</h2>
+                        <p class="section-description">
+                            Consulte les informations de ton compte étudiant.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="role-information">
+
+                    <div class="role-information-icon" aria-hidden="true">
+                        ◎
+                    </div>
+
+                    <div>
+                        <h3>Ton compte EventCampus</h3>
+
+                        <p>
+                            Les informations de ton compte sont chargées depuis
+                            ta session. La modification du profil sera ajoutée
+                            dans une prochaine étape.
+                        </p>
+                    </div>
+
+                </div>
+
+            </section>
+
+            <!-- =============== PIED DE PAGE =============== -->
+            <footer class="dashboard-footer">
+                <p>
+                    © <span id="currentYear"></span> EventCampus
+                </p>
+
+                <p>La vie étudiante, au même endroit.</p>
+            </footer>
+
+        </div>
+    </main>
+</div>
+</body>
+</html>

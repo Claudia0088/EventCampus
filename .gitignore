@@ -1,0 +1,25 @@
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!.mvn/wrapper/maven-wrapper.properties
+
+# Java
+*.class
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Système
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Variables d'environnement
+.env
+
+# Fichiers de configuration locaux
+application-local.properties

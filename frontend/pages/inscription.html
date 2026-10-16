@@ -1,0 +1,148 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Inscription - EventCampus</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/auth.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+
+</head>
+
+<body>
+
+    <header>
+        <div class="logo">
+            <a href="../index.html">EventCampus</a>
+        </div>
+
+        <nav class="mainNavigation">
+            <a href="../index.html">Accueil</a>
+            <a href="evenements.html">Événements</a>
+            <a href="connexion.html">Connexion</a>
+            <a href="inscription.html">Inscription</a>
+        </nav>
+    </header>
+
+    <main>
+        <section class="authSection">
+
+            <div class="authCard">
+
+                <h1>Créer un compte</h1>
+
+                <p class="authDescription">
+                    Rejoignez EventCampus pour découvrir et gérer
+                    les événements étudiants.
+                </p>
+
+                <form id="registerForm">
+
+                    <div class="formGroup">
+                        <label for="firstName">Prénom</label>
+                        <input
+                            type="text"
+                            id="firstName"
+                            name="firstName"
+                            placeholder="Votre prénom"
+                            autocomplete="given-name"
+                            required
+                        >
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="lastName">Nom</label>
+                        <input
+                            type="text"
+                            id="lastName"
+                            name="lastName"
+                            placeholder="Votre nom"
+                            autocomplete="family-name"
+                            required
+                        >
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="email">Adresse e-mail</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="exemple@email.com"
+                            autocomplete="email"
+                            required
+                        >
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="password">Mot de passe</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="8 caractères minimum"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+                    </div>
+
+                    <div class="formGroup">
+                        <label for="confirmPassword">
+                            Confirmer le mot de passe
+                        </label>
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            name="confirmPassword"
+                            placeholder="Retapez votre mot de passe"
+                            minlength="8"
+                            autocomplete="new-password"
+                            required
+                        >
+                    </div>
+
+                    <p
+                        id="registerMessage"
+                        class="formMessage"
+                        role="status"
+                        aria-live="polite"
+                    ></p>
+
+                    <button
+                        type="submit"
+                        id="registerButton"
+                        class="primaryButton authButton"
+                    >
+                        Créer mon compte
+                    </button>
+
+                </form>
+
+                <p class="authFooter">
+                    Vous avez déjà un compte ?
+                    <a href="connexion.html">Se connecter</a>
+                </p>
+
+                <a href="../index.html" class="backLink">
+                    ← Retour à l'accueil
+                </a>
+
+            </div>
+
+        </section>
+    </main>
+
+    <footer>
+        <p>© 2026 EventCampus - Projet étudiant</p>
+    </footer>
+
+    <script src="../js/inscription.js"></script>
+
+</body>
+</html>

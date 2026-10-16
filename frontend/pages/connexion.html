@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Connexion - EventCampus</title>
+
+    <!-- CSS global -->
+    <link rel="stylesheet" href="../css/style.css">
+
+    <!-- CSS spécifique à l'authentification -->
+    <link rel="stylesheet" href="../css/auth.css">
+</head>
+
+<body>
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <header>
+
+        <div class="logo">
+            <a href="../index.html">EventCampus</a>
+        </div>
+
+        <nav class="mainNavigation">
+
+            <a href="../index.html">
+                Accueil
+            </a>
+
+            <a href="evenements.html">
+                Événements
+            </a>
+
+            <a href="connexion.html">
+                Connexion
+            </a>
+
+            <a href="inscription.html">
+                Inscription
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <!-- =========================
+         MAIN
+         ========================= -->
+
+    <main>
+
+        <section class="authSection">
+
+            <div class="authCard">
+
+                <h1>
+                    Connexion
+                </h1>
+
+                <p class="authDescription">
+                    Connectez-vous à votre compte EventCampus
+                    pour accéder à votre espace.
+                </p>
+
+
+                <!-- Formulaire -->
+
+                <form id="loginForm">
+
+
+                    <!-- Email -->
+
+                    <div class="formGroup">
+
+                        <label for="email">
+                            Adresse e-mail
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            placeholder="exemple@email.com"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Mot de passe -->
+
+                    <div class="formGroup">
+
+                        <label for="password">
+                            Mot de passe
+                        </label>
+
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Votre mot de passe"
+                            required
+                        >
+
+                    </div>
+
+
+                    <!-- Message -->
+
+                    <p
+                        id="loginMessage"
+                        class="formMessage"
+                    ></p>
+
+
+                    <!-- Bouton -->
+
+                    <button
+                        type="submit"
+                        class="primaryButton authButton"
+                    >
+                        Se connecter
+                    </button>
+
+                </form>
+
+
+                <!-- Inscription -->
+
+                <p class="authFooter">
+
+                    Pas encore de compte ?
+
+                    <a href="inscription.html">
+                        S'inscrire
+                    </a>
+
+                </p>
+
+
+                <!-- Retour accueil -->
+
+                <a
+                    href="../index.html"
+                    class="backLink"
+                >
+                    ← Retour à l'accueil
+                </a>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer>
+
+        <p>
+            © 2026 EventCampus - Projet étudiant
+        </p>
+
+    </footer>
+
+    <script src="../js/auth.js"></script>
+
+</body>
+
+</html>

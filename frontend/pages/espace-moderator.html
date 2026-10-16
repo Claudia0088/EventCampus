@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="fr" data-required-role="MODERATOR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Espace modérateur | EventCampus</title>
+
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/espace.css">
+
+    <script src="../js/espace.js" defer></script>
+</head>
+
+<body>
+    <div class="dashboard-layout">
+
+        <aside class="sidebar" id="sidebar">
+            <a href="../index.html" class="brand">
+                <span class="brand-icon">E</span>
+                <span>EventCampus</span>
+            </a>
+
+            <div class="sidebar-profile">
+                <div class="avatar" id="userAvatar">E</div>
+                <div>
+                    <strong id="sidebarUserName">Modérateur</strong>
+                    <p id="sidebarUserRole">Équipe de modération</p>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="#accueil" class="active">Accueil</a>
+                <a href="#signalements">Signalements</a>
+                <a href="#evenements">Événements à vérifier</a>
+                <a href="#profil">Mon profil</a>
+            </nav>
+
+            <button type="button" id="logoutButton"
+                    class="logout-button">
+                Se déconnecter
+            </button>
+        </aside>
+
+        <main class="dashboard-main">
+
+            <header class="dashboard-header">
+                <button type="button" id="menuToggle"
+                        aria-label="Ouvrir le menu"
+                        aria-expanded="false">
+                    ☰
+                </button>
+
+                <span>Mon espace modérateur</span>
+
+                <span class="role-badge" id="userRoleBadge">
+                    Modérateur
+                </span>
+            </header>
+
+            <div id="dashboardAlert" role="alert" hidden></div>
+
+            <section id="accueil" class="welcome-panel">
+                <p class="eyebrow">UNE COMMUNAUTÉ PLUS SÛRE</p>
+
+                <h1>
+                    Bonjour <span id="welcomeName">!</span>
+                </h1>
+
+                <p id="welcomeDescription">
+                    Retrouve ton espace de modération et contribue à
+                    une communauté étudiante accueillante.
+                </p>
+            </section>
+
+            <section id="signalements" class="dashboard-section">
+                <h2>Signalements</h2>
+
+                <div class="dashboard-card">
+                    <h3>Suivi des signalements</h3>
+
+                    <p>
+                        Cette rubrique permettra de consulter les contenus
+                        signalés et de traiter les demandes de modération.
+                    </p>
+
+                    <p>
+                        <strong>Statut :</strong>
+                        fonctionnalité à connecter au backend.
+                    </p>
+                </div>
+            </section>
+
+            <section id="evenements" class="dashboard-section">
+                <h2>Événements à vérifier</h2>
+
+                <div class="dashboard-card">
+                    <h3>Contrôle des événements</h3>
+
+                    <p>
+                        Les événements nécessitant une vérification
+                        apparaîtront ici lorsque le système de modération
+                        sera connecté à la base de données.
+                    </p>
+                </div>
+            </section>
+
+            <section id="profil" class="dashboard-section">
+                <h2>Mon profil</h2>
+
+                <div class="dashboard-card">
+                    <div class="avatar" id="profileAvatar">E</div>
+
+                    <p>
+                        <strong>Nom :</strong>
+                        <span id="userFullName">Chargement...</span>
+                    </p>
+
+                    <p>
+                        <strong>E-mail :</strong>
+                        <span id="userEmail">Chargement...</span>
+                    </p>
+                </div>
+            </section>
+
+            <footer class="dashboard-footer">
+                © <span id="currentYear"></span> EventCampus
+            </footer>
+
+        </main>
+
+        <div id="sidebarOverlay" hidden></div>
+
+    </div>
+</body>
+</html>

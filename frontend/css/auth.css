@@ -1,0 +1,207 @@
+/* =========================
+   PAGE CONNEXION
+   ========================= */
+
+.authSection {
+    min-height: 75vh;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    padding: 60px 20px;
+
+    background-color: #f7f8fc;
+}
+
+
+/* =========================
+   CARTE
+   ========================= */
+
+.authCard {
+    width: 100%;
+    max-width: 480px;
+
+    padding: 40px;
+
+    background-color: white;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+
+/* =========================
+   TITRE
+   ========================= */
+
+.authCard h1 {
+    margin-bottom: 10px;
+
+    text-align: center;
+
+    font-size: 32px;
+
+    color: #1e293b;
+}
+
+
+/* =========================
+   DESCRIPTION
+   ========================= */
+
+.authDescription {
+    margin-bottom: 30px;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+
+/* =========================
+   FORMULAIRE
+   ========================= */
+
+.formGroup {
+    margin-bottom: 20px;
+}
+
+.formGroup label {
+    display: block;
+
+    margin-bottom: 8px;
+
+    font-weight: 600;
+
+    color: #374151;
+}
+
+
+.formGroup input {
+    width: 100%;
+
+    padding: 13px 14px;
+
+    border: 1px solid #d1d5db;
+
+    border-radius: 7px;
+
+    font-size: 15px;
+
+    outline: none;
+
+    transition: border-color 0.2s ease,
+                box-shadow 0.2s ease;
+}
+
+
+.formGroup input:focus {
+    border-color: #2563eb;
+
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.10);
+}
+
+
+/* =========================
+   BOUTON
+   ========================= */
+
+.authButton {
+    width: 100%;
+
+    border: none;
+
+    cursor: pointer;
+
+    font-size: 16px;
+}
+
+
+/* =========================
+   MESSAGE
+   ========================= */
+
+.formMessage {
+    min-height: 24px;
+
+    margin-bottom: 10px;
+
+    text-align: center;
+
+    font-size: 14px;
+}
+
+
+/* =========================
+   INSCRIPTION
+   ========================= */
+
+.authFooter {
+    margin-top: 25px;
+
+    text-align: center;
+
+    color: #64748b;
+}
+
+
+.authFooter a {
+    color: #2563eb;
+
+    font-weight: 600;
+
+    text-decoration: none;
+}
+
+
+.authFooter a:hover {
+    text-decoration: underline;
+}
+
+
+/* =========================
+   RETOUR
+   ========================= */
+
+.backLink {
+    display: block;
+
+    margin-top: 20px;
+
+    text-align: center;
+
+    color: #64748b;
+
+    text-decoration: none;
+
+    font-size: 14px;
+}
+
+
+.backLink:hover {
+    color: #2563eb;
+}
+
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 600px) {
+
+    .authSection {
+        padding: 40px 20px;
+    }
+
+    .authCard {
+        padding: 30px 20px;
+    }
+
+    .authCard h1 {
+        font-size: 28px;
+    }
+}
