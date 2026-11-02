@@ -23,6 +23,11 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.5.4</version>
+        </dependency>
         <!-- Accès à MySQL avec JPA -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

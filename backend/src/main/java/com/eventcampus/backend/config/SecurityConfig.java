@@ -29,10 +29,12 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(
             HttpSecurity http,
-            SecurityContextRepository securityContextRepository)
+            SecurityContextRepository securityContextRepository,
+            com.eventcampus.backend.service.AccountSessionService accounts)
             throws Exception {
 
         http
+            .addFilterBefore(new AccountSessionFilter(accounts), org.springframework.security.web.access.intercept.AuthorizationFilter.class)
             .cors(Customizer.withDefaults())
 
             // Configuration temporaire pour les tests locaux.
@@ -58,7 +60,12 @@ public class SecurityConfig {
                     "/api/auth/me",
                     "/api/auth/logout"
                 ).authenticated()
-                .anyRequest().authenticated()
+                .requestMatchers("/api/admin/**").hasRole("ADMIN")
+                .requestMatchers("/api/moderator/**").hasRole("MODERATOR")
+                .requestMatchers("/api/user/**").hasRole("USER")
+                .requestMatchers(HttpMethod.GET, "/api/events", "/api/events/availability")
+                    .permitAll()
+                .anyRequest().denyAll()
             )
 
             .logout(logout -> logout.disable());

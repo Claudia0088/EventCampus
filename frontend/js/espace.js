@@ -364,7 +364,8 @@ async function verifierSession() {
         }
 
         // Redirection si le compte n'utilise pas le bon espace.
-        if (roleAttendu && role !== roleAttendu) {
+        if ((roleAttendu && role !== roleAttendu)
+                || document.documentElement.hasAttribute("data-role-entry")) {
             const pagesSelonRole = {
                 USER: "espace-user.html",
                 MODERATOR: "espace-moderator.html",
@@ -440,7 +441,7 @@ async function verifierSession() {
 /* 13. RECHERCHE D'ÉVÉNEMENTS */
 
 function filtrerEvenements() {
-    if (!eventsContainer) {
+    if (!eventsContainer || eventsContainer.dataset.liveEvents) {
         return;
     }
 

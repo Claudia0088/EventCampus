@@ -41,7 +41,7 @@ public class AuthService {
                 .findByEmail(email.trim().toLowerCase())
                 .orElse(null);
 
-        if (user == null || user.getPassword() == null) {
+        if (user == null || user.getPassword() == null || !"ACTIVE".equals(user.getStatus())) {
             return null;
         }
 

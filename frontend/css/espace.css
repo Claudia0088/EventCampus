@@ -825,6 +825,31 @@ p {
     overflow: hidden;
 }
 
+.event-cover {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: 1;
+}
+
+.proposal-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+    gap: 22px;
+}
+.proposal-form label { display: grid; gap: 8px; font-weight: 700; }
+.proposal-form input, .proposal-form textarea, .proposal-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--card-background);
+    color: inherit;
+}
+.proposal-wide { grid-column: 1 / -1; }
+
 .event-image-conference {
     background: linear-gradient(135deg, #dbeafe, #bfdbfe);
 }
@@ -927,6 +952,37 @@ p {
     padding: 8px 11px;
     font-size: 11px;
 }
+
+.registration-controls { width: 100%; }
+.registration-controls .section-description { margin: 0 0 8px; font-size: 12px; }
+
+.registration-cancel-dialog {
+    width: min(540px, calc(100% - 32px));
+    max-height: calc(100dvh - 40px);
+    overflow: auto;
+    margin: auto;
+    padding: 32px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius-card);
+    background: var(--card-background);
+    color: var(--text-main);
+    box-shadow: var(--shadow-hover);
+}
+.registration-cancel-dialog[open] { animation: registration-dialog-in .18s ease-out; }
+.registration-cancel-dialog::backdrop { background: var(--text-main); opacity: .35; }
+.registration-cancel-dialog h2 { margin: 12px 0 16px; font-size: 25px; }
+.registration-cancel-dialog p { overflow-wrap: anywhere; }
+.registration-cancel-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+.registration-cancel-actions button { flex: 1 1 190px; }
+.registration-cancel-error, .registration-success { padding: 16px; background: var(--campus-blue-pale); border: 1px solid var(--campus-blue-light); border-radius: var(--radius-small); color: var(--campus-blue-dark); }
+.registration-qr-dialog { text-align: center; }
+.registration-qr-dialog img { display: block; width: min(100%, 360px); height: auto; margin: 16px auto; background: var(--card-background); }
+.registration-qr-dialog .registration-cancel-actions { justify-content: center; align-items: center; }
+.registration-qr-dialog .section-description { font-size: 12px; margin-top: 12px; }
+.registration-cancel-dialog button:focus-visible { outline: 3px solid var(--campus-blue); outline-offset: 4px; }
+@keyframes registration-dialog-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@media (max-width: 550px) { .registration-cancel-dialog { padding: 24px; } .registration-cancel-actions { flex-direction: column; } .registration-cancel-actions button { flex: auto; width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .registration-cancel-dialog[open] { animation: none; } }
 
 /* Statuts réutilisables */
 

@@ -15,6 +15,11 @@
     <link rel="stylesheet" href="../css/espace.css">
 
     <script src="../js/espace.js" defer></script>
+    <script src="../js/event-images.js" defer></script>
+    <script src="../js/qr-code.js" defer></script>
+    <script src="../js/event-registrations.js" defer></script>
+    <script src="../js/student-events.js" defer></script>
+    <script src="../js/event-proposals.js" defer></script>
 </head>
 
 <body>
@@ -66,6 +71,11 @@
             <a href="#profil" class="nav-link" data-section="profil">
                 <span aria-hidden="true">◎</span>
                 <span>Mon profil</span>
+            </a>
+
+            <a href="#propositions" class="nav-link" data-section="propositions">
+                <span aria-hidden="true">+</span>
+                <span>Mes propositions</span>
             </a>
 
         </nav>
@@ -191,149 +201,13 @@
                         <span class="sr-only">Filtrer par catégorie</span>
                         <select id="eventCategoryFilter">
                             <option value="">Toutes les catégories</option>
-                            <option value="conference">Conférences</option>
-                            <option value="atelier">Ateliers</option>
-                            <option value="soiree">Soirées</option>
-                            <option value="sport">Sport</option>
-                            <option value="culture">Culture</option>
                         </select>
                     </label>
                 </div>
 
-                <!-- Les événements réels seront chargés ici ultérieurement. -->
-                <div class="event-grid" id="eventsContainer">
-
-                    <article class="event-card event-card-placeholder">
-                        <div class="event-card-image event-image-conference">
-                            <span class="event-category">Conférence</span>
-                            <span class="event-image-symbol" aria-hidden="true">✦</span>
-                        </div>
-
-                        <div class="event-card-content">
-                            <p class="event-date">
-                                <span aria-hidden="true">▦</span>
-                                Date à venir
-                            </p>
-
-                            <h3>Conférences et rencontres</h3>
-
-                            <p class="event-description">
-                                Découvre les rencontres et conférences organisées
-                                par la communauté étudiante.
-                            </p>
-
-                            <p class="event-location">
-                                <span aria-hidden="true">⌖</span>
-                                Lieu à préciser
-                            </p>
-
-                            <div class="event-card-footer">
-                                <span class="event-status status-upcoming">
-                                    À venir
-                                </span>
-
-                                <button
-                                    type="button"
-                                    class="secondary-button"
-                                    disabled
-                                    title="Disponible lorsque les événements seront connectés au backend"
-                                >
-                                    Bientôt disponible
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="event-card event-card-placeholder">
-                        <div class="event-card-image event-image-workshop">
-                            <span class="event-category">Atelier</span>
-                            <span class="event-image-symbol" aria-hidden="true">✎</span>
-                        </div>
-
-                        <div class="event-card-content">
-                            <p class="event-date">
-                                <span aria-hidden="true">▦</span>
-                                Date à venir
-                            </p>
-
-                            <h3>Ateliers étudiants</h3>
-
-                            <p class="event-description">
-                                Des activités pour apprendre, partager des idées
-                                et développer de nouvelles compétences.
-                            </p>
-
-                            <p class="event-location">
-                                <span aria-hidden="true">⌖</span>
-                                Lieu à préciser
-                            </p>
-
-                            <div class="event-card-footer">
-                                <span class="event-status status-upcoming">
-                                    À venir
-                                </span>
-
-                                <button
-                                    type="button"
-                                    class="secondary-button"
-                                    disabled
-                                    title="Disponible lorsque les événements seront connectés au backend"
-                                >
-                                    Bientôt disponible
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                    <article class="event-card event-card-placeholder">
-                        <div class="event-card-image event-image-campus">
-                            <span class="event-category">Vie étudiante</span>
-                            <span class="event-image-symbol" aria-hidden="true">♡</span>
-                        </div>
-
-                        <div class="event-card-content">
-                            <p class="event-date">
-                                <span aria-hidden="true">▦</span>
-                                Date à venir
-                            </p>
-
-                            <h3>Activités du campus</h3>
-
-                            <p class="event-description">
-                                Retrouve les activités qui favorisent les échanges
-                                et la convivialité entre étudiants.
-                            </p>
-
-                            <p class="event-location">
-                                <span aria-hidden="true">⌖</span>
-                                Lieu à préciser
-                            </p>
-
-                            <div class="event-card-footer">
-                                <span class="event-status status-upcoming">
-                                    À venir
-                                </span>
-
-                                <button
-                                    type="button"
-                                    class="secondary-button"
-                                    disabled
-                                    title="Disponible lorsque les événements seront connectés au backend"
-                                >
-                                    Bientôt disponible
-                                </button>
-                            </div>
-                        </div>
-                    </article>
-
-                </div>
-
-                <p class="demo-notice">
-                    <span aria-hidden="true">ⓘ</span>
-                    Ces cartes sont des aperçus de démonstration, pas des événements
-                    réels. Les événements publiés seront affichés ici après connexion
-                    à la base de données.
-                </p>
+                <p id="registrationActionMessage" class="demo-notice" role="status" aria-live="polite"></p>
+                <div class="event-grid" id="eventsContainer" data-live-events="true" aria-busy="true"></div>
+                <p class="demo-notice" id="eventsMessage" role="status" aria-live="polite">Chargement des événements...</p>
 
             </section>
 
@@ -351,37 +225,8 @@
                     </div>
                 </div>
 
-                <!-- Les inscriptions réelles seront chargées ici. -->
-                <div class="registration-list" id="registrationsContainer">
-
-                    <article class="registration-card registration-placeholder">
-
-                        <div class="registration-date-block">
-                            <span class="registration-date-day">--</span>
-                            <span class="registration-date-month">---</span>
-                        </div>
-
-                        <div class="registration-info">
-                            <span class="registration-status status-pending">
-                                En attente de données
-                            </span>
-
-                            <h3>Ton prochain événement apparaîtra ici</h3>
-
-                            <p>
-                                Une fois inscrit à un événement, tu retrouveras
-                                sa date, son lieu et son statut dans cette section.
-                            </p>
-                        </div>
-
-                        <div class="registration-ticket" aria-hidden="true">
-                            <span>▦</span>
-                            <small>Billet</small>
-                        </div>
-
-                    </article>
-
-                </div>
+                <p id="registrationsMessage" class="demo-notice" role="status" aria-live="polite">Chargement des inscriptions...</p>
+                <div class="event-grid" id="registrationsContainer"></div>
 
                 <div class="section-action">
                     <a href="#evenements" class="secondary-button">
@@ -474,6 +319,34 @@
             </section>
 
             <!-- =============== PIED DE PAGE =============== -->
+            <section class="dashboard-section" id="propositions">
+                <div class="section-heading">
+                    <div>
+                        <span class="section-eyebrow">TES INITIATIVES</span>
+                        <h2>Proposer un événement et suivre mes propositions</h2>
+                        <p class="section-description">
+                            Propose une activité au campus. Elle sera visible après validation
+                            par un modérateur. Retrouve ici le suivi de tes propositions.
+                        </p>
+                    </div>
+                </div>
+                <form id="eventProposalForm" class="proposal-form">
+                    <label>Titre<input name="title" required maxlength="255"></label>
+                    <label class="proposal-wide">Description<textarea name="description" required maxlength="15000" rows="4"></textarea></label>
+                    <label>Date<input type="date" name="eventDate" required></label>
+                    <label>Heure<input type="time" name="eventTime" required></label>
+                    <label>Lieu<input name="location" required maxlength="255"></label>
+                    <label>Capacité<input type="number" name="capacity" required min="1" max="2147483647" step="1"></label>
+                    <label>Catégorie<select name="idCategory" required disabled><option value="">Chargement des catégories...</option></select></label>
+                    <p class="section-description proposal-wide">L'ajout d'image sera disponible ultérieurement.</p>
+                    <button class="primary-button" type="submit" disabled>Envoyer ma proposition</button>
+                </form>
+                <p id="proposalMessage" class="demo-notice" role="status" aria-live="polite"></p>
+                <div class="section-heading"><h3>Le suivi de mes propositions</h3></div>
+                <p id="myProposalsMessage" class="demo-notice" role="status" aria-live="polite">Chargement des propositions...</p>
+                <div class="event-grid" id="myProposalsContainer"></div>
+            </section>
+
             <footer class="dashboard-footer">
                 <p>
                     © <span id="currentYear"></span> EventCampus
@@ -485,5 +358,32 @@
         </div>
     </main>
 </div>
+<dialog id="registrationCancelDialog" class="registration-cancel-dialog" aria-labelledby="registrationCancelTitle" aria-describedby="registrationCancelDescription">
+    <form id="registrationCancelForm">
+        <span class="section-eyebrow">VOTRE PARTICIPATION</span>
+        <h2 id="registrationCancelTitle">Annuler mon inscription ?</h2>
+        <p id="registrationCancelDescription"></p>
+        <p id="registrationCancelError" class="registration-cancel-error" role="alert" hidden></p>
+        <p id="registrationCancelProgress" role="status" aria-live="polite" hidden>Annulation en cours…</p>
+        <div class="registration-cancel-actions">
+            <button type="button" id="keepRegistration" class="secondary-button" autofocus>Conserver mon inscription</button>
+            <button type="submit" id="confirmRegistrationCancel" class="primary-button">Confirmer l'annulation</button>
+        </div>
+    </form>
+</dialog>
+<dialog id="registrationQrDialog" class="registration-cancel-dialog registration-qr-dialog" aria-labelledby="registrationQrTitle" aria-describedby="registrationQrInstructions">
+    <span class="section-eyebrow">VOTRE BILLET PERSONNEL</span>
+    <h2 id="registrationQrTitle">Mon QR code</h2>
+    <p id="registrationQrEvent"></p>
+    <p id="registrationQrDate"></p>
+    <p id="registrationQrStatus" role="status" aria-live="polite"></p>
+    <img id="registrationQrImage" width="360" height="360" alt="QR code personnel" hidden>
+    <p id="registrationQrInstructions">Présentez ce QR code à l'entrée de l'événement.</p>
+    <p class="section-description">Ce billet ne constitue pas une preuve d'identité. Ne le partagez pas. Il expire à la fin de la journée de l'événement, heure de Paris.</p>
+    <div class="registration-cancel-actions">
+        <a id="registrationQrDownload" class="primary-button" hidden>Télécharger le QR code</a>
+        <button type="button" id="registrationQrClose" class="secondary-button" autofocus>Fermer</button>
+    </div>
+</dialog>
 </body>
 </html>
