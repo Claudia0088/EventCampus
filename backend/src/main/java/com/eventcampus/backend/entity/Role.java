@@ -11,9 +11,9 @@ public class Role {
     @Column(name = "id_role")
     private Integer idRole;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
-
+    @Column (name = "description", nullable = true)
     private String description;
 
     public Role() {

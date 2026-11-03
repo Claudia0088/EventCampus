@@ -4,31 +4,35 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
+import org.jspecify.annotations.Nullable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name = "users")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_user")
+    @Id 
+    @GeneratedValue (strategy = GenerationType.IDENTITY)
+    @Column (name = "id_user")
     private Integer idUser;
 
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
 
-    @Column(name = "last_name", nullable = false)
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @Column(nullable = false)
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String status;
+    @Column(name = "status", nullable = false)
+    private String status = "ACTIVE";
 
-    @Column(name = "created_at", nullable = false)
+    @Column(name = "created_at", nullable = false, insertable = false, updatable = false)
     private LocalDateTime createdAt;
 
     @ManyToOne
@@ -39,18 +43,13 @@ public class User {
     }
 
     public Integer getIdUser() {
-        return idUser;
+    return idUser;
     }
 
-    public void setIdUser(Integer idUser) {
-        this.idUser = idUser;
-    }
-
-    public String getFirstName() {
+    public String getFirstName(){
         return firstName;
     }
-
-    public void setFirstName(String firstName) {
+    public void setFirstName(String firstName){
         this.firstName = firstName;
     }
 
@@ -69,13 +68,9 @@ public class User {
     public void setEmail(String email) {
         this.email = email;
     }
-
+    @JsonIgnore 
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getStatus() {
@@ -90,10 +85,6 @@ public class User {
         return createdAt;
     }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
     public Role getRole() {
         return role;
     }
@@ -101,4 +92,9 @@ public class User {
     public void setRole(Role role) {
         this.role = role;
     }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }
+    

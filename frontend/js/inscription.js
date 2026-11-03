@@ -1,4 +1,7 @@
 
+const API_BASE_URL =
+    `http://${window.location.hostname}:8080/api/auth`;
+
 const registerForm = document.getElementById("registerForm");
 const registerMessage = document.getElementById("registerMessage");
 const registerButton = document.getElementById("registerButton");
@@ -52,11 +55,12 @@ if (registerForm && registerMessage && registerButton) {
 
         try {
             const response = await fetch(
-                "http://localhost:8080/api/auth/register",
+                `${API_BASE_URL}/register`,
                 {
                     method: "POST",
                     headers: {
-                        "Content-Type": "application/json"
+                        "Content-Type": "application/json",
+                        "Accept": "application/json"
                     },
                     body: JSON.stringify({
                         firstName: firstName,
@@ -67,11 +71,20 @@ if (registerForm && registerMessage && registerButton) {
                 }
             );
 
-            const message = await response.text();
+            const responseBody = await response.text();
+            let result;
+
+            try {
+                result = responseBody
+                    ? JSON.parse(responseBody)
+                    : {};
+            } catch {
+                result = { message: responseBody };
+            }
 
             if (response.ok) {
                 registerMessage.textContent =
-                    "Compte créé avec succès ! Redirection vers la connexion...";
+                    `${result.message || "Compte créé avec succès"} ! Redirection vers la connexion...`;
 
                 registerForm.reset();
 
@@ -80,7 +93,9 @@ if (registerForm && registerMessage && registerButton) {
                 }, 1500);
             } else {
                 registerMessage.textContent =
-                    message || "Impossible de créer le compte.";
+                    result.message ||
+                    result.detail ||
+                    "Impossible de créer le compte.";
             }
 
         } catch (error) {

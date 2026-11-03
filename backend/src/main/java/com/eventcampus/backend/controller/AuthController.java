@@ -1,15 +1,20 @@
 package com.eventcampus.backend.controller;
 
 import com.eventcampus.backend.dto.LoginRequest;
+import com.eventcampus.backend.dto.RegisterRequest;
 import com.eventcampus.backend.entity.User;
 import com.eventcampus.backend.service.AuthService;
+import com.eventcampus.backend.service.RegisterService;
 
+import jakarta.validation.Valid;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,18 +25,26 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
+    private static final Logger logger =
+            LoggerFactory.getLogger(AuthController.class);
+
     private final AuthService authService;
+    private final RegisterService registerService;
     private final SecurityContextRepository securityContextRepository;
 
     public AuthController(
             AuthService authService,
+            RegisterService registerService,
             SecurityContextRepository securityContextRepository) {
         this.authService = authService;
+        this.registerService = registerService;
         this.securityContextRepository = securityContextRepository;
     }
 
@@ -142,25 +155,17 @@ public class AuthController {
 
     @PostMapping("/register")
     public ResponseEntity<?> register(
-            @RequestBody RegisterRequest request) {
+            @Valid @RequestBody RegisterRequest request,
+            BindingResult bindingResult) {
 
-        if (request == null
-                || request.getFirstName() == null
-                || request.getLastName() == null
-                || request.getEmail() == null
-                || request.getPassword() == null) {
+        if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(
-                    Map.of("message", "Tous les champs sont obligatoires.")
+                    Map.of("message", "Les données d'inscription sont invalides.")
             );
         }
 
         try {
-            User user = authService.register(
-                    request.getFirstName(),
-                    request.getLastName(),
-                    request.getEmail(),
-                    request.getPassword()
-            );
+            User user = registerService.register(request);
 
             return ResponseEntity.status(HttpStatus.CREATED).body(
                     Map.of(
@@ -170,57 +175,16 @@ public class AuthController {
             );
 
         } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(
-                    Map.of("message", e.getMessage())
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(
+                    Map.of("message", "Cette adresse e-mail est déjà utilisée.")
             );
 
-        } catch (IllegalStateException e) {
+        } catch (IllegalStateException | DataAccessException e) {
+            logger.error("Erreur interne pendant l'inscription.", e);
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(
-                    Map.of("message", e.getMessage())
+                    Map.of("message", "Impossible de créer le compte pour le moment.")
             );
         }
     }
 
-    public static class RegisterRequest {
-
-        private String firstName;
-        private String lastName;
-        private String email;
-        private String password;
-
-        public RegisterRequest() {
-        }
-
-        public String getFirstName() {
-            return firstName;
-        }
-
-        public void setFirstName(String firstName) {
-            this.firstName = firstName;
-        }
-
-        public String getLastName() {
-            return lastName;
-        }
-
-        public void setLastName(String lastName) {
-            this.lastName = lastName;
-        }
-
-        public String getEmail() {
-            return email;
-        }
-
-        public void setEmail(String email) {
-            this.email = email;
-        }
-
-        public String getPassword() {
-            return password;
-        }
-
-        public void setPassword(String password) {
-            this.password = password;
-        }
-    }
 }
