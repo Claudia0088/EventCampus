@@ -8,11 +8,13 @@
 
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/espace.css">
+    <link rel="stylesheet" href="../css/moderator.css">
 
     <script src="../js/espace.js" defer></script>
+    <script src="../js/moderator-events.js" defer></script>
 </head>
 
-<body>
+<body class="moderator-dashboard">
     <div class="dashboard-layout">
 
         <aside class="sidebar" id="sidebar">
@@ -29,54 +31,59 @@
                 </div>
             </div>
 
-            <nav class="sidebar-nav">
-                <a href="#accueil" class="active">Accueil</a>
-                <a href="#signalements">Signalements</a>
-                <a href="#evenements">Événements à vérifier</a>
-                <a href="#profil">Mon profil</a>
+            <nav class="sidebar-nav" aria-label="Navigation de modération">
+                <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Accueil</span></a>
+                <a href="#signalements" class="nav-link"><span aria-hidden="true">⚑</span><span>Signalements</span></a>
+                <a href="#evenements" class="nav-link"><span aria-hidden="true">▦</span><span>Événements en attente</span></a>
+                <a href="#profil" class="nav-link"><span aria-hidden="true">◎</span><span>Mon profil</span></a>
             </nav>
 
             <button type="button" id="logoutButton"
                     class="logout-button">
-                Se déconnecter
+                <span aria-hidden="true">↪</span><span>Se déconnecter</span>
             </button>
         </aside>
 
         <main class="dashboard-main">
 
-            <header class="dashboard-header">
-                <button type="button" id="menuToggle"
+            <header class="topbar moderator-topbar">
+                <button type="button" id="menuToggle" class="menu-toggle"
                         aria-label="Ouvrir le menu"
+                        aria-controls="sidebar"
                         aria-expanded="false">
                     ☰
                 </button>
 
-                <span>Mon espace modérateur</span>
+                <div class="moderator-header-title"><span class="section-eyebrow">EVENTCAMPUS / MODÉRATION</span><strong>Mon espace modérateur</strong></div>
 
                 <span class="role-badge" id="userRoleBadge">
-                    Modérateur
+                    MODERATOR
                 </span>
             </header>
 
+            <div class="dashboard-content">
             <div id="dashboardAlert" role="alert" hidden></div>
 
-            <section id="accueil" class="welcome-panel">
-                <p class="eyebrow">UNE COMMUNAUTÉ PLUS SÛRE</p>
+            <section id="accueil" class="moderator-welcome dashboard-section">
+                <div>
+                    <span class="welcome-eyebrow">UNE COMMUNAUTÉ PLUS SÛRE</span>
+                    <h1>Bienvenue dans votre espace de modération</h1>
+                    <p>Examinez les propositions d'événements et contribuez à une communauté étudiante dynamique.</p>
+                    <a href="#evenements" class="primary-button">Examiner les propositions <span aria-hidden="true">→</span></a>
+                </div>
+                <div class="moderator-welcome-mark" aria-hidden="true">✓</div>
+            </section>
 
-                <h1>
-                    Bonjour <span id="welcomeName">!</span>
-                </h1>
-
-                <p id="welcomeDescription">
-                    Retrouve ton espace de modération et contribue à
-                    une communauté étudiante accueillante.
-                </p>
+            <section class="moderator-stats" aria-label="Statistiques des événements">
+                <article class="moderator-stat"><span class="stat-icon stat-warning" aria-hidden="true">◷</span><div><p>Événements en attente</p><strong id="pendingCount">—</strong><small id="pendingCountNote">Propositions à examiner</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon stat-success" aria-hidden="true">✓</span><div><p>Événements publiés</p><strong id="publishedCount">—</strong><small id="publishedCountNote">Chargement du catalogue</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">▦</span><div><p>Total des événements</p><strong id="totalCount">—</strong><small id="totalCountNote">Chargement des statistiques</small></div></article>
             </section>
 
             <section id="signalements" class="dashboard-section">
-                <h2>Signalements</h2>
+                <div class="section-heading"><div><span class="section-eyebrow">VEILLE DU CAMPUS</span><h2>Signalements</h2></div></div>
 
-                <div class="dashboard-card">
+                <div class="moderator-panel moderator-coming-soon">
                     <h3>Suivi des signalements</h3>
 
                     <p>
@@ -86,29 +93,22 @@
 
                     <p>
                         <strong>Statut :</strong>
-                        fonctionnalité à connecter au backend.
+                        Fonctionnalité à venir.
                     </p>
                 </div>
             </section>
 
             <section id="evenements" class="dashboard-section">
-                <h2>Événements à vérifier</h2>
-
-                <div class="dashboard-card">
-                    <h3>Contrôle des événements</h3>
-
-                    <p>
-                        Les événements nécessitant une vérification
-                        apparaîtront ici lorsque le système de modération
-                        sera connecté à la base de données.
-                    </p>
-                </div>
+                <div class="section-heading moderator-section-heading"><div><span class="section-eyebrow">À EXAMINER</span><h2>Événements en attente de validation</h2><p class="section-description">Chaque proposition mérite votre attention. Consultez les détails avant de prendre une décision.</p></div>
+                <button type="button" class="secondary-button" id="refreshPending">Actualiser la liste</button></div>
+                <p class="demo-notice" id="moderationMessage" role="status" aria-live="polite"></p>
+                <div class="event-grid" id="pendingEvents" aria-busy="true"></div>
             </section>
 
             <section id="profil" class="dashboard-section">
-                <h2>Mon profil</h2>
+                <div class="section-heading"><div><span class="section-eyebrow">VOTRE COMPTE</span><h2>Mon profil</h2></div></div>
 
-                <div class="dashboard-card">
+                <div class="moderator-panel moderator-profile">
                     <div class="avatar" id="profileAvatar">E</div>
 
                     <p>
@@ -120,16 +120,18 @@
                         <strong>E-mail :</strong>
                         <span id="userEmail">Chargement...</span>
                     </p>
+                    <span class="event-status status-upcoming">MODERATOR</span>
                 </div>
             </section>
 
             <footer class="dashboard-footer">
                 © <span id="currentYear"></span> EventCampus
             </footer>
+            </div>
 
         </main>
 
-        <div id="sidebarOverlay" hidden></div>
+        <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
 
     </div>
 </body>

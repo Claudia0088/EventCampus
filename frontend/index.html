@@ -1,230 +1,78 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>EventCampus</title>
-
+    <meta name="description" content="Découvrez les événements de votre campus et proposez vos activités à la communauté étudiante avec EventCampus.">
+    <title>EventCampus — La vie étudiante commence ici</title>
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/accueil.css">
+    <script src="js/event-images.js" defer></script>
+    <script src="js/main.js" defer></script>
 </head>
-
-<body>
-
-    <!-- =========================
-         HEADER
-         ========================= -->
-
-    <header>
-
-        <div class="logo">
-            <a href="index.html">EventCampus</a>
-        </div>
-
-        <nav class="mainNavigation">
-
-            <a href="index.html">
-                Accueil
-            </a>
-
-            <a href="pages/evenements.html">
-                Événements
-            </a>
-
-            <a href="pages/connexion.html">
-                Connexion
-            </a>
-
-            <a href="pages/inscription.html">
-                Inscription
-            </a>
-
+<body class="home-page">
+    <a class="skip-link" href="#contenu">Aller au contenu</a>
+    <header class="home-header">
+        <div class="logo"><a href="index.html">EventCampus</a></div>
+        <nav class="mainNavigation" aria-label="Navigation principale">
+            <a href="index.html" aria-current="page">Accueil</a>
+            <a href="pages/evenements.html">Événements</a>
+            <a href="pages/connexion.html">Connexion</a>
+            <a href="pages/inscription.html" class="nav-register">Inscription <span aria-hidden="true">↗</span></a>
         </nav>
-
     </header>
-
-
-    <!-- =========================
-         MAIN
-         ========================= -->
-
-    <main>
-
-        <!-- =========================
-             HERO
-             ========================= -->
-
-        <section class="heroSection">
-
-            <h1>
-                Les événements étudiants au même endroit
-            </h1>
-
-            <p>
-                Découvrez, créez et participez aux événements
-                de votre campus.
-            </p>
-
-            <a href="pages/evenements.html" class="primaryButton">
-                Voir les événements
-            </a>
-
-        </section>
-
-
-        <!-- =========================
-             UPCOMING EVENTS
-             ========================= -->
-
-        <section class="upcomingEvents">
-
-            <h2>
-                Événements à venir
-            </h2>
-
-            <p class="sectionDescription">
-                Découvrez les prochains événements disponibles
-                sur votre campus.
-            </p>
-
-
-            <!-- Liste des événements -->
-
-            <div class="eventList">
-
-
-                <!-- Événement 1 -->
-
-                <article class="eventCard">
-
-                    <div class="eventImage">
-                        <span>Gaming</span>
+    <main id="contenu">
+        <section class="home-hero" aria-labelledby="heroTitle">
+            <div class="home-hero-inner">
+                <div class="hero-copy">
+                    <span class="home-eyebrow hero-badge"><span aria-hidden="true">✦</span> La vie étudiante commence ici</span>
+                    <h1 id="heroTitle">Découvrez, partagez et vivez les événements de <em>votre campus.</em></h1>
+                    <p>Une rencontre, une idée, une nouvelle passion. Retrouvez les activités du campus et faites vivre vos propres initiatives avec la communauté étudiante.</p>
+                    <div class="hero-actions">
+                        <a href="pages/evenements.html" class="primaryButton">Explorer les événements <span aria-hidden="true">→</span></a>
+                        <a href="#pourquoi" class="home-secondary">Découvrir EventCampus</a>
                     </div>
-
-                    <div class="eventContent">
-
-                        <h3>
-                            Tournoi Gaming
-                        </h3>
-
-                        <p class="eventDate">
-                            15 octobre 2026
-                        </p>
-
-                        <p class="eventLocation">
-                            Campus ESEO
-                        </p>
-
-                        <p>
-                            Participez à un tournoi entre étudiants
-                            et affrontez les autres joueurs du campus.
-                        </p>
-
-                        <a href="pages/evenement-detail.html"
-                           class="secondaryButton">
-                            Voir l'événement
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- Événement 2 -->
-
-                <article class="eventCard">
-
-                    <div class="eventImage">
-                        <span>Sport</span>
-                    </div>
-
-                    <div class="eventContent">
-
-                        <h3>
-                            Tournoi de Football
-                        </h3>
-
-                        <p class="eventDate">
-                            20 octobre 2026
-                        </p>
-
-                        <p class="eventLocation">
-                            Complexe sportif
-                        </p>
-
-                        <p>
-                            Formez votre équipe et participez
-                            au tournoi sportif étudiant.
-                        </p>
-
-                        <a href="pages/evenement-detail.html"
-                           class="secondaryButton">
-                            Voir l'événement
-                        </a>
-
-                    </div>
-
-                </article>
-
-
-                <!-- Événement 3 -->
-
-                <article class="eventCard">
-
-                    <div class="eventImage">
-                        <span>Culture</span>
-                    </div>
-
-                    <div class="eventContent">
-
-                        <h3>
-                            Soirée Culturelle
-                        </h3>
-
-                        <p class="eventDate">
-                            25 octobre 2026
-                        </p>
-
-                        <p class="eventLocation">
-                            Salle événementielle
-                        </p>
-
-                        <p>
-                            Découvrez les cultures et les talents
-                            des étudiants du campus.
-                        </p>
-
-                        <a href="pages/evenement-detail.html"
-                           class="secondaryButton">
-                            Voir l'événement
-                        </a>
-
-                    </div>
-
-                </article>
-
-
+                    <p class="hero-footnote"><span aria-hidden="true">✓</span> Découvrez librement. Proposez avec votre compte étudiant.</p>
+                </div>
+                <div class="hero-board" aria-labelledby="boardTitle">
+                    <div class="board-top"><span class="board-monogram" aria-hidden="true">E</span><div><span class="home-eyebrow">VOTRE PROCHAIN RENDEZ-VOUS</span><h2 id="boardTitle">Ça se passe au campus.</h2></div><span class="board-spark" aria-hidden="true">✦</span></div>
+                    <div id="heroEvents" class="hero-events" aria-busy="true"><p class="home-state">Les prochains rendez-vous arrivent...</p></div>
+                    <a href="pages/evenements.html" class="board-bottom">Tout le programme <span aria-hidden="true">↗</span></a>
+                </div>
             </div>
-
+            <div class="hero-ribbon"><span>Des idées qui rassemblent.</span><span>Des rencontres qui comptent.</span><span>Un campus qui vit.</span></div>
         </section>
-
+        <section class="home-section" id="evenements" aria-labelledby="eventsTitle">
+            <div class="home-section-heading"><div><span class="home-eyebrow">LE PROGRAMME DU CAMPUS</span><h2 id="eventsTitle">Événements à venir</h2><p>Faites de la place aux découvertes dans votre agenda.</p></div><a href="pages/evenements.html" class="home-text-link">Voir tous les événements <span aria-hidden="true">↗</span></a></div>
+            <p id="homeEventsMessage" class="home-state" role="status" aria-live="polite">Chargement des événements...</p>
+            <div class="home-event-grid" id="homeEvents" aria-busy="true"></div>
+            <noscript><p class="home-state">Activez JavaScript pour charger les événements. <a href="pages/evenements.html">Accéder au catalogue</a>.</p></noscript>
+        </section>
+        <section class="home-why" id="pourquoi" aria-labelledby="whyTitle">
+            <div class="home-section">
+                <div class="home-section-heading"><div><span class="home-eyebrow">BIEN PLUS QU’UN AGENDA</span><h2 id="whyTitle">Pourquoi EventCampus ?</h2><p>Votre vie étudiante, avec un peu plus de possibilités.</p></div></div>
+                <div class="home-feature-grid">
+                    <article class="home-feature"><span class="feature-icon" aria-hidden="true">▦</span><h3>Découvrez les événements du campus.</h3><p>Conférences, ateliers, sport ou culture : explorez les événements publiés, même sans compte.</p><a href="pages/evenements.html" class="home-text-link">Trouver une activité <span aria-hidden="true">→</span></a></article>
+                    <article class="home-feature"><span class="feature-icon" aria-hidden="true">◎</span><h3>Participez à la vie étudiante.</h3><p>Repérez les initiatives qui vous ressemblent et découvrez de nouvelles occasions de rencontrer la communauté. Avec votre compte étudiant, inscrivez-vous aux événements publiés dans la limite des places disponibles.</p></article>
+                    <article class="home-feature"><span class="feature-icon" aria-hidden="true">✧</span><h3>Proposez vos propres événements.</h3><p>Un atelier à partager, une idée à concrétiser ? Votre compte étudiant vous permet de soumettre une proposition à la modération.</p><a href="pages/mon-espace.html" class="home-text-link">Accéder à mon espace <span aria-hidden="true">→</span></a></article>
+                </div>
+            </div>
+        </section>
+        <section class="home-section home-how" aria-labelledby="howTitle">
+            <div class="home-section-heading"><div><span class="home-eyebrow">DE L’IDÉE AU RENDEZ-VOUS</span><h2 id="howTitle">Comment ça marche ?</h2><p>Quelques étapes pour faire bouger votre campus.</p></div></div>
+            <ol class="home-steps">
+                <li><span class="step-number" aria-hidden="true">01</span><h3>Découvrir les événements</h3><p>Consultez librement le programme et trouvez votre prochaine activité.</p></li>
+                <li><span class="step-number" aria-hidden="true">02</span><h3>Créer un compte</h3><p>Rejoignez EventCampus pour accéder à votre espace étudiant.</p></li>
+                <li><span class="step-number" aria-hidden="true">03</span><h3>Proposer une activité</h3><p>Présentez votre idée et suivez son statut dans « Mes propositions ».</p></li>
+                <li><span class="step-number" aria-hidden="true">04</span><h3>Attendre la validation</h3><p>Un modérateur examine la proposition avant sa publication au catalogue.</p></li>
+            </ol>
+            <div class="home-invitation"><div><h3>Votre prochaine idée a sa place ici.</h3><p>Commencez par découvrir ce qui fait vivre votre campus.</p></div><a href="pages/inscription.html" class="primaryButton">Rejoindre EventCampus <span aria-hidden="true">↗</span></a></div>
+        </section>
     </main>
-
-
-    <!-- =========================
-         FOOTER
-         ========================= -->
-
-    <footer>
-
-        <p>
-            © 2026 EventCampus - Projet étudiant
-        </p>
-
+    <footer class="home-footer">
+        <div><a class="footer-brand" href="index.html">EventCampus</a><p>Les rencontres, les idées et les initiatives<br>qui font vivre votre campus.</p></div>
+        <nav aria-label="Navigation de pied de page"><a href="index.html">Accueil</a><a href="pages/evenements.html">Événements</a><a href="pages/connexion.html">Connexion</a><a href="pages/inscription.html">Inscription</a></nav>
+        <p class="footer-note">© <span id="homeYear">2026</span> EventCampus · Projet universitaire</p>
     </footer>
-
-
 </body>
-
 </html>
