@@ -1,6 +1,6 @@
 (() => {
     const frontend = new URL('../', document.currentScript.src);
-    const api = `http://${window.location.hostname}:8080/api`;
+    const api = `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api`;
     let role = null, mine = [], places = new Map(), ready = false, busy = false;
     const list = document.getElementById('registrationsContainer');
     const notice = document.getElementById('registrationsMessage');

@@ -14,6 +14,8 @@ public class QrCode {
     public String getCode() { return code; }
     public void setCode(String value) { code = value; }
     public boolean isUsed() { return used; }
+    public LocalDateTime getUsedAt() { return usedAt; }
+    public Registration getRegistration() { return registration; }
     public void setUsed(boolean value) { used = value; }
     public void setUsedAt(LocalDateTime value) { usedAt = value; }
     public void setCreatedAt(LocalDateTime value) { createdAt = value; }

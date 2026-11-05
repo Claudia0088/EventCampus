@@ -20,4 +20,9 @@ public class QrCodeController {
     @ExceptionHandler(ResponseStatusException.class) public ResponseEntity<?> error(ResponseStatusException error) {
         return ResponseEntity.status(error.getStatusCode()).contentType(MediaType.APPLICATION_JSON).cacheControl(CacheControl.noStore()).body(Map.of("message", error.getReason()));
     }
+    @ExceptionHandler(org.springframework.web.method.annotation.MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<?> invalidId() {
+        return ResponseEntity.badRequest().contentType(MediaType.APPLICATION_JSON).cacheControl(CacheControl.noStore())
+                .body(Map.of("message", "Identifiant d'inscription invalide."));
+    }
 }

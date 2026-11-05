@@ -12,54 +12,49 @@
 
     <script src="../js/espace.js" defer></script>
     <script src="../js/moderator-events.js" defer></script>
+    <link rel="stylesheet" href="../css/reports.css">
+    <script src="../js/moderator-reports.js" defer></script>
+    <link rel="stylesheet" href="../css/qr-scanner.css">
+    <script src="../js/qr-scanner.js" defer></script>
 </head>
 
 <body class="moderator-dashboard">
-    <div class="dashboard-layout">
+    <div class="dashboard-layout horizontal-dashboard">
 
-        <aside class="sidebar" id="sidebar">
-            <a href="../index.html" class="brand">
+        <header class="dashboard-header">
+<a href="../index.html" class="brand">
                 <span class="brand-icon">E</span>
                 <span>EventCampus</span>
             </a>
-
-            <div class="sidebar-profile">
+<button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
+<nav class="header-nav" id="dashboardNavigation" aria-label="Navigation de modération">
+                <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Accueil</span></a>
+                <a href="#signalements" class="nav-link"><span aria-hidden="true">⚑</span><span>Signalements</span></a>
+                <a href="#evenements" class="nav-link"><span aria-hidden="true">▦</span><span>Événements en attente</span></a>
+                <a href="#profil" class="nav-link"><span aria-hidden="true">◎</span><span>Mon profil</span></a>
+                <a href="#scanner" class="nav-link"><span aria-hidden="true">&#9638;</span><span>Scanner les pr&eacute;sences</span></a>
+</nav>
+<div class="header-account">
+<div class="header-profile">
                 <div class="avatar" id="userAvatar">E</div>
                 <div>
                     <strong id="sidebarUserName">Modérateur</strong>
                     <p id="sidebarUserRole">Équipe de modération</p>
                 </div>
             </div>
-
-            <nav class="sidebar-nav" aria-label="Navigation de modération">
-                <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Accueil</span></a>
-                <a href="#signalements" class="nav-link"><span aria-hidden="true">⚑</span><span>Signalements</span></a>
-                <a href="#evenements" class="nav-link"><span aria-hidden="true">▦</span><span>Événements en attente</span></a>
-                <a href="#profil" class="nav-link"><span aria-hidden="true">◎</span><span>Mon profil</span></a>
-            </nav>
-
-            <button type="button" id="logoutButton"
+<span class="role-badge" id="userRoleBadge">
+                    MODERATOR
+                </span>
+<button type="button" id="logoutButton"
                     class="logout-button">
                 <span aria-hidden="true">↪</span><span>Se déconnecter</span>
             </button>
-        </aside>
+</div>
+</header>
 
         <main class="dashboard-main">
 
-            <header class="topbar moderator-topbar">
-                <button type="button" id="menuToggle" class="menu-toggle"
-                        aria-label="Ouvrir le menu"
-                        aria-controls="sidebar"
-                        aria-expanded="false">
-                    ☰
-                </button>
-
-                <div class="moderator-header-title"><span class="section-eyebrow">EVENTCAMPUS / MODÉRATION</span><strong>Mon espace modérateur</strong></div>
-
-                <span class="role-badge" id="userRoleBadge">
-                    MODERATOR
-                </span>
-            </header>
+            
 
             <div class="dashboard-content">
             <div id="dashboardAlert" role="alert" hidden></div>
@@ -83,19 +78,14 @@
             <section id="signalements" class="dashboard-section">
                 <div class="section-heading"><div><span class="section-eyebrow">VEILLE DU CAMPUS</span><h2>Signalements</h2></div></div>
 
-                <div class="moderator-panel moderator-coming-soon">
-                    <h3>Suivi des signalements</h3>
-
-                    <p>
-                        Cette rubrique permettra de consulter les contenus
-                        signalés et de traiter les demandes de modération.
-                    </p>
-
-                    <p>
-                        <strong>Statut :</strong>
-                        Fonctionnalité à venir.
-                    </p>
+                <p class="section-description">Consultez les alertes de la communauté et suivez leur traitement.</p>
+                <div class="reports-toolbar">
+                    <label for="reportsFilter">Filtrer par statut<select id="reportsFilter"><option value="PENDING">En attente</option><option value="RESOLVED">Traités</option><option value="REJECTED">Rejetés</option><option value="">Tous les statuts</option></select></label>
+                    <button type="button" id="reportsRefresh" class="secondary-button">Actualiser les signalements</button>
                 </div>
+                <p id="reportsMessage" class="report-feedback" role="status" aria-live="polite" aria-atomic="true">Chargement des signalements…</p>
+                <div id="reportsList" class="reports-grid" aria-busy="true"></div>
+                <nav class="reports-pagination" aria-label="Pages des signalements"><button type="button" id="reportsPrevious" class="secondary-button" disabled>Précédent</button><span id="reportsPage" aria-live="polite"></span><button type="button" id="reportsNext" class="secondary-button" disabled>Suivant</button></nav>
             </section>
 
             <section id="evenements" class="dashboard-section">
@@ -105,7 +95,23 @@
                 <div class="event-grid" id="pendingEvents" aria-busy="true"></div>
             </section>
 
-            <section id="profil" class="dashboard-section">
+            <section id="scanner" class="dashboard-section" aria-labelledby="scannerTitle">
+    <div class="section-heading"><div><span class="section-eyebrow">PR&Eacute;SENCES</span><h2 id="scannerTitle">Scanner les pr&eacute;sences</h2><p class="section-description">Choisissez un &eacute;v&eacute;nement, scannez le billet puis confirmez la pr&eacute;sence.</p></div></div>
+    <div class="qr-scanner-panel">
+        <div class="qr-scanner-event"><label for="scanEvent">Choisir un &eacute;v&eacute;nement<select id="scanEvent" aria-describedby="scanEventHint"><option value="">Chargement...</option></select></label><button type="button" id="scanRefresh" class="secondary-button">Actualiser</button></div>
+        <p id="scanEventHint" class="qr-scanner-hint">&Eacute;v&eacute;nements du jour, heure de Paris.</p>
+        <div class="qr-scanner-actions"><button type="button" id="scanStart" class="primary-button" disabled>Ouvrir la cam&eacute;ra</button><button type="button" id="scanConfirm" class="secondary-button" disabled>Valider la pr&eacute;sence</button><button type="button" id="scanStop" class="secondary-button" hidden>Arr&ecirc;ter la cam&eacute;ra</button></div>
+        <video id="scanVideo" autoplay muted playsinline hidden aria-label="Aper&ccedil;u de la cam&eacute;ra pour lire le QR code"></video>
+        <button type="button" id="scanCapture" class="primary-button" hidden>Photographier et valider</button>
+        <div class="qr-scanner-feedback"><p id="scanStatus" role="status" aria-live="polite" aria-atomic="true">Chargement...</p><p id="scanResult" aria-live="polite" aria-atomic="true"></p></div>
+        <details id="scanAlternative" class="qr-scanner-alternative"><summary>Autre m&eacute;thode de scan <span aria-hidden="true">&#9662;</span></summary>
+            <form id="scanImageForm"><label for="scanImage">Importer une photo du QR code<input id="scanImage" type="file" accept="image/png,image/jpeg" required aria-describedby="scanImageHint"></label><p id="scanImageHint" class="qr-scanner-hint">PNG ou JPEG, 5 Mo maximum.</p><button type="submit" class="secondary-button" disabled>V&eacute;rifier la photo et enregistrer la pr&eacute;sence</button></form>
+        </details>
+        <p class="qr-scanner-hint qr-scanner-note">Cam&eacute;ra sur t&eacute;l&eacute;phone : HTTPS requis. V&eacute;rifiez aussi l'identit&eacute; du participant.</p>
+    </div>
+</section>
+
+<section id="profil" class="dashboard-section">
                 <div class="section-heading"><div><span class="section-eyebrow">VOTRE COMPTE</span><h2>Mon profil</h2></div></div>
 
                 <div class="moderator-panel moderator-profile">
@@ -131,8 +137,36 @@
 
         </main>
 
-        <div id="sidebarOverlay" class="sidebar-overlay" hidden></div>
+        
 
     </div>
+    <dialog id="moderationConfirmDialog" class="moderation-dialog" aria-labelledby="moderationConfirmTitle" aria-describedby="moderationConfirmEvent moderationConfirmDescription">
+        <form id="moderationConfirmForm">
+            <span class="section-eyebrow">MODÉRATION</span>
+            <h2 id="moderationConfirmTitle">Confirmer la publication</h2>
+            <p id="moderationConfirmEvent" class="moderation-dialog-event"></p>
+            <p id="moderationConfirmDescription">Voulez-vous accepter et publier cet événement ? Cette action est définitive.</p>
+            <p id="moderationConfirmStatus" role="status" aria-live="polite" aria-atomic="true"></p>
+            <div class="moderation-dialog-actions">
+                <button type="button" id="moderationConfirmCancel" class="secondary-button" autofocus>Annuler</button>
+                <button type="submit" id="moderationConfirmSubmit" class="primary-button">Confirmer la publication</button>
+            </div>
+        </form>
+    </dialog>
+    <dialog id="reportDetailDialog" class="reports-dialog" aria-labelledby="reportDetailHeading" aria-describedby="reportDetailTitle">
+        <span class="section-eyebrow">SIGNALEMENT</span>
+        <h2 id="reportDetailHeading">Détails du signalement</h2>
+        <p id="reportDetailTitle" class="report-event-title"></p>
+        <p id="reportDetailMeta" class="report-hint"></p>
+        <h3 class="report-explanation-heading">Explication</h3>
+        <p id="reportDetailExplanation" class="report-explanation"></p>
+        <p id="reportDetailStatus" class="report-feedback" role="status" aria-live="polite" aria-atomic="true"></p>
+        <div id="reportDetailActions" class="reports-dialog-actions" hidden><button type="button" id="reportResolve" class="primary-button">Marquer comme traité</button><button type="button" id="reportReject" class="secondary-button">Rejeter</button></div>
+        <form id="reportDecisionForm" class="report-decision" hidden>
+            <h3 id="reportDecisionTitle"></h3><p id="reportDecisionText"></p>
+            <div class="reports-dialog-actions"><button type="button" id="reportDecisionCancel" class="secondary-button">Annuler</button><button type="submit" id="reportDecisionConfirm" class="primary-button">Confirmer</button></div>
+        </form>
+        <div class="reports-dialog-actions"><button type="button" id="reportDetailClose" class="secondary-button" autofocus>Fermer</button></div>
+    </dialog>
 </body>
 </html>

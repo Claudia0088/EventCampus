@@ -10,27 +10,30 @@
     <link rel="stylesheet" href="../css/admin.css">
     <script src="../js/espace.js" defer></script>
     <script src="../js/admin.js" defer></script>
+    <link rel="stylesheet" href="../css/qr-scanner.css">
+    <script src="../js/qr-scanner.js" defer></script>
 </head>
 <body class="moderator-dashboard admin-dashboard">
-<div class="dashboard-layout">
-    <aside class="sidebar" id="sidebar">
-        <a href="../index.html" class="brand"><span class="brand-icon" aria-hidden="true">E</span><span>EventCampus</span></a>
-        <div class="sidebar-profile"><div id="userAvatar" aria-hidden="true">E</div><div><strong id="sidebarUserName">Chargement...</strong><p id="sidebarUserRole">Administration</p></div></div>
-        <nav class="sidebar-nav" aria-label="Navigation de l'administration">
+<div class="dashboard-layout horizontal-dashboard">
+    <header class="dashboard-header">
+<a href="../index.html" class="brand"><span class="brand-icon" aria-hidden="true">E</span><span>EventCampus</span></a>
+<button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
+<nav class="header-nav" id="dashboardNavigation" aria-label="Navigation de l'administration">
             <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Tableau de bord</span></a>
             <a href="#utilisateurs" class="nav-link"><span aria-hidden="true">◎</span><span>Utilisateurs</span></a>
             <a href="#categories" class="nav-link"><span aria-hidden="true">▤</span><span>Catégories</span></a>
             <a href="#evenements" class="nav-link"><span aria-hidden="true">▦</span><span>Événements</span></a>
             <a href="#profil" class="nav-link"><span aria-hidden="true">◉</span><span>Mon profil</span></a>
-        </nav>
-        <button type="button" id="logoutButton" class="logout-button"><span aria-hidden="true">↪</span><span>Déconnexion</span></button>
-    </aside>
+            <a href="#scanner" class="nav-link"><span aria-hidden="true">&#9638;</span><span>Scanner les pr&eacute;sences</span></a>
+</nav>
+<div class="header-account">
+<div class="header-profile"><div id="userAvatar" aria-hidden="true">E</div><div><strong id="sidebarUserName">Chargement...</strong><p id="sidebarUserRole">Administration</p></div></div>
+<span id="userRoleBadge">Administrateur</span>
+<button type="button" id="logoutButton" class="logout-button"><span aria-hidden="true">↪</span><span>Déconnexion</span></button>
+</div>
+</header>
     <main class="dashboard-main">
-        <header class="topbar moderator-topbar">
-            <button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="sidebar" aria-expanded="false">☰</button>
-            <div class="moderator-header-title"><span class="section-eyebrow">EVENTCAMPUS / ADMINISTRATION</span><strong>Mon espace administrateur</strong></div>
-            <span id="userRoleBadge">Administrateur</span>
-        </header>
+        
         <div class="dashboard-content">
             <div id="dashboardAlert" role="alert" hidden></div>
             <section id="accueil" class="moderator-welcome dashboard-section">
@@ -62,14 +65,30 @@
                 <label class="event-filter admin-filter"><span>Filtrer par statut</span><select id="adminStatusFilter"><option value="">Tous les statuts</option></select></label>
                 <div class="admin-table-wrap"><table><caption class="sr-only">Événements du campus</caption><thead><tr><th scope="col">Titre</th><th scope="col">Créateur</th><th scope="col">Catégorie</th><th scope="col">Date</th><th scope="col">Statut</th></tr></thead><tbody id="adminEvents"><tr><td colspan="5">Chargement...</td></tr></tbody></table></div>
             </section>
-            <section id="profil" class="dashboard-section">
+            <section id="scanner" class="dashboard-section" aria-labelledby="scannerTitle">
+    <div class="section-heading"><div><span class="section-eyebrow">PR&Eacute;SENCES</span><h2 id="scannerTitle">Scanner les pr&eacute;sences</h2><p class="section-description">Choisissez un &eacute;v&eacute;nement, scannez le billet puis confirmez la pr&eacute;sence.</p></div></div>
+    <div class="qr-scanner-panel">
+        <div class="qr-scanner-event"><label for="scanEvent">Choisir un &eacute;v&eacute;nement<select id="scanEvent" aria-describedby="scanEventHint"><option value="">Chargement...</option></select></label><button type="button" id="scanRefresh" class="secondary-button">Actualiser</button></div>
+        <p id="scanEventHint" class="qr-scanner-hint">&Eacute;v&eacute;nements du jour, heure de Paris.</p>
+        <div class="qr-scanner-actions"><button type="button" id="scanStart" class="primary-button" disabled>Ouvrir la cam&eacute;ra</button><button type="button" id="scanConfirm" class="secondary-button" disabled>Valider la pr&eacute;sence</button><button type="button" id="scanStop" class="secondary-button" hidden>Arr&ecirc;ter la cam&eacute;ra</button></div>
+        <video id="scanVideo" autoplay muted playsinline hidden aria-label="Aper&ccedil;u de la cam&eacute;ra pour lire le QR code"></video>
+        <button type="button" id="scanCapture" class="primary-button" hidden>Photographier et valider</button>
+        <div class="qr-scanner-feedback"><p id="scanStatus" role="status" aria-live="polite" aria-atomic="true">Chargement...</p><p id="scanResult" aria-live="polite" aria-atomic="true"></p></div>
+        <details id="scanAlternative" class="qr-scanner-alternative"><summary>Autre m&eacute;thode de scan <span aria-hidden="true">&#9662;</span></summary>
+            <form id="scanImageForm"><label for="scanImage">Importer une photo du QR code<input id="scanImage" type="file" accept="image/png,image/jpeg" required aria-describedby="scanImageHint"></label><p id="scanImageHint" class="qr-scanner-hint">PNG ou JPEG, 5 Mo maximum.</p><button type="submit" class="secondary-button" disabled>V&eacute;rifier la photo et enregistrer la pr&eacute;sence</button></form>
+        </details>
+        <p class="qr-scanner-hint qr-scanner-note">Cam&eacute;ra sur t&eacute;l&eacute;phone : HTTPS requis. V&eacute;rifiez aussi l'identit&eacute; du participant.</p>
+    </div>
+</section>
+
+<section id="profil" class="dashboard-section">
                 <div class="section-heading"><div><span class="section-eyebrow">VOTRE COMPTE</span><h2>Mon profil</h2></div></div>
                 <div class="moderator-panel moderator-profile"><div id="profileAvatar" aria-hidden="true">E</div><p><strong>Nom</strong><br><span id="userFullName">Chargement...</span></p><p><strong>E-mail</strong><br><span id="userEmail">Chargement...</span></p><span class="event-status status-upcoming">Administrateur</span></div>
             </section>
             <footer class="dashboard-footer"><p>© <span id="currentYear"></span> EventCampus · Administration</p></footer>
         </div>
     </main>
-    <div class="sidebar-overlay" id="sidebarOverlay" hidden></div>
+    
 </div>
     <dialog id="userActionDialog" class="admin-dialog" aria-labelledby="userActionTitle">
         <form id="userActionForm">

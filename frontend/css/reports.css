@@ -1,0 +1,41 @@
+/* Scoped to reports. Reuse the dashboard palette and keep the shared header intact. */
+.reportable-event-actions { flex-wrap: wrap; gap: 10px; }
+.report-event-button { color: var(--campus-blue-dark); }
+.reports-dialog { width: min(94vw, 560px); max-height: 90vh; overflow: auto; margin: auto; padding: 28px; border: 1px solid var(--border-color); border-radius: var(--radius-card); background: var(--card-background); color: var(--text-main); box-shadow: var(--shadow-hover); }
+.reports-dialog::backdrop { background: rgba(30, 41, 59, .35); }
+.reports-dialog[open] { animation: reports-enter .18s ease-out; }
+.reports-dialog h2 { margin: 10px 0 16px; }
+.reports-dialog p, .report-card h3 { overflow-wrap: anywhere; }
+.report-event-title { margin: 12px 0; padding: 12px 14px; border-radius: var(--radius-small); color: var(--campus-blue-dark); background: var(--campus-blue-pale); font-weight: 650; }
+.reports-dialog fieldset { display: grid; gap: 10px; padding: 0; margin: 20px 0 0; border: 0; min-width: 0; }
+.reports-dialog label, .reports-toolbar label { font-weight: 650; }
+.reports-dialog select, .reports-dialog textarea, .reports-toolbar select { width: 100%; min-width: 0; padding: 12px; border: 1px solid var(--border-color); border-radius: 10px; color: var(--text-main); background: var(--card-background); }
+.reports-dialog textarea { resize: vertical; }
+.report-hint, .report-required { font-size: 12px; color: var(--text-muted); font-weight: 400; }
+.reports-dialog .report-hint { margin: 0; }
+.reports-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 20px; }
+.reports-dialog-actions button { min-height: 44px; white-space: normal; text-align: center; }
+.report-feedback { padding: 12px 14px; border-radius: 10px; background: var(--campus-blue-pale); color: var(--campus-blue-dark); overflow-wrap: anywhere; }
+.report-feedback:empty { display: none; }
+.report-feedback[data-state="success"] { border-left: 3px solid var(--campus-blue); font-weight: 650; }
+.report-feedback[data-state="error"] { border-left: 3px solid var(--text-muted); background: var(--page-background); color: var(--text-main); }
+.reports-toolbar { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 16px; margin-bottom: 18px; }
+.reports-toolbar label { display: grid; gap: 8px; min-width: 200px; }
+.reports-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px; }
+.report-card { min-width: 0; padding: 22px; border: 1px solid var(--border-color); border-radius: var(--radius-card); background: var(--card-background); box-shadow: var(--shadow-card); }
+.report-card-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.report-card h3 { margin: 0; font-size: 18px; }
+.report-status { flex-shrink: 0; padding: 4px 10px; border-radius: 20px; color: var(--campus-blue-dark); background: var(--campus-blue-light); font-size: 12px; font-weight: 650; }
+.report-reason { margin: 12px 0 6px; color: var(--text-main); }
+.report-date { margin: 0 0 16px; font-size: 12px; }
+.reports-pagination { display: flex; align-items: center; justify-content: center; gap: 16px; margin-top: 20px; }
+.reports-pagination span { color: var(--text-muted); font-size: 13px; text-align: center; }
+.report-explanation { white-space: pre-wrap; overflow-wrap: anywhere; }
+.report-explanation-heading { margin-top: 20px; font-size: 15px; }
+.report-decision { margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+.report-decision h3 { font-size: 18px; }
+.reports-dialog :focus-visible, .reports-toolbar :focus-visible, .report-card :focus-visible { outline: 3px solid var(--campus-blue); outline-offset: 3px; }
+@keyframes reports-enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 700px) { .reports-grid { grid-template-columns: 1fr; } }
+@media (max-width: 550px) { .reports-dialog { padding: 20px; } .reports-dialog-actions { flex-direction: column-reverse; } .reports-dialog-actions button { width: 100%; } .reports-toolbar label, .reports-toolbar button { width: 100%; min-width: 0; } .report-card-heading { flex-wrap: wrap; } .reports-pagination { gap: 8px; } }
+@media (prefers-reduced-motion: reduce) { .reports-dialog[open] { animation: none; } }

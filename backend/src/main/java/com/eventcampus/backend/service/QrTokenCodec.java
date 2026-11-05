@@ -16,7 +16,7 @@ public class QrTokenCodec {
     public QrTokenCodec() {
         String configured = System.getenv("EVENTCAMPUS_QR_KEY_FILE");
         String local = System.getenv("LOCALAPPDATA");
-        keyFile = configured != null ? Path.of(configured) : Path.of(local != null ? local : System.getProperty("user.home"), "EventCampus", "Secrets", "qr.key");
+        keyFile = configured != null && !configured.isBlank() ? Path.of(configured) : Path.of(local != null ? local : System.getProperty("user.home"), "EventCampus", "Secrets", "qr.key");
     }
     public QrTokenCodec(Path keyFile) { this.keyFile = keyFile; }
     @jakarta.annotation.PostConstruct
@@ -34,15 +34,23 @@ public class QrTokenCodec {
         }
     }
     private String token(Integer registration, String nonce) {
+        byte[] key = null;
         try {
-            byte[] key = Files.readAllBytes(keyFile);
+            key = Files.readAllBytes(keyFile);
             if (key.length != 32) throw new GeneralSecurityException();
-            var mac = Mac.getInstance("HmacSHA256"); mac.init(new SecretKeySpec(key, "HmacSHA256")); Arrays.fill(key, (byte)0);
+            var mac = Mac.getInstance("HmacSHA256"); mac.init(new SecretKeySpec(key, "HmacSHA256"));
             return "EC1." + Base64.getUrlEncoder().withoutPadding().encodeToString(mac.doFinal((registration + ":" + nonce).getBytes(StandardCharsets.UTF_8)));
         } catch (Exception error) {
             log.warn("QR server key operation failed: {}", error.getClass().getSimpleName());
             throw new ResponseStatusException(HttpStatus.SERVICE_UNAVAILABLE, "Clé QR serveur indisponible. Contactez l'administration.");
+        } finally {
+            if (key != null) Arrays.fill(key, (byte)0);
         }
+    }
+    public String fingerprint(String candidate) {
+        if (candidate == null || !candidate.matches("EC1\\.[A-Za-z0-9_-]{43}"))
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "QR code invalide.");
+        return digest(candidate);
     }
     private String digest(String value) {
         try { return HexFormat.of().formatHex(MessageDigest.getInstance("SHA-256").digest(value.getBytes(StandardCharsets.UTF_8))); }

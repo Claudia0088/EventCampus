@@ -3,9 +3,18 @@
     if (!list) return;
     const message = document.getElementById('moderationMessage');
     const refresh = document.getElementById('refreshPending');
-    const base = `http://${window.location.hostname}:8080/api/moderator/events`;
+    const base = `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/moderator/events`;
     let busy = false;
     let pending = [];
+    const dialog = document.getElementById('moderationConfirmDialog');
+    const confirmForm = document.getElementById('moderationConfirmForm');
+    const confirmTitle = document.getElementById('moderationConfirmTitle');
+    const confirmEvent = document.getElementById('moderationConfirmEvent');
+    const confirmDescription = document.getElementById('moderationConfirmDescription');
+    const confirmStatus = document.getElementById('moderationConfirmStatus');
+    const confirmCancel = document.getElementById('moderationConfirmCancel');
+    const confirmSubmit = document.getElementById('moderationConfirmSubmit');
+    let selection = null;
     const pendingCount = document.getElementById('pendingCount');
     const publishedCount = document.getElementById('publishedCount');
     const publishedNote = document.getElementById('publishedCountNote');
@@ -61,7 +70,7 @@
             for (const [action, label] of [['approve', 'Accepter'], ['reject', 'Refuser']]) {
                 const button = node('button', `secondary-button ${action === 'approve' ? 'approve-button' : 'reject-button'}`, label);
                 button.type = 'button';
-                button.addEventListener('click', () => decide(event, action));
+                button.addEventListener('click', () => decide(event, action, button));
                 actions.append(button);
             }
             content.append(actions);
@@ -74,6 +83,9 @@
         refresh.disabled = value;
         list.setAttribute('aria-busy', String(value));
         list.querySelectorAll('button').forEach(button => { button.disabled = value; });
+        confirmCancel.disabled = value;
+        confirmSubmit.disabled = value;
+        confirmForm.setAttribute('aria-busy', String(value));
     }
     async function fetchPending() {
         const data = await request('/pending');
@@ -113,11 +125,25 @@
         }
         finally { lock(false); }
     }
-    async function decide(event, action) {
-        if (busy) return;
-        const verb = action === 'approve' ? 'Accepter et publier' : 'Refuser';
-        if (!window.confirm(`${verb} l’événement « ${event.title} » ? Cette décision ne pourra pas être répétée.`)) return;
+    function decide(event, action, trigger) {
+        if (busy || dialog.open || !['approve', 'reject'].includes(action)) return;
+        selection = { event, action, trigger };
+        const approve = action === 'approve';
+        confirmTitle.textContent = approve ? 'Confirmer la publication' : 'Confirmer le refus';
+        confirmEvent.textContent = event.title;
+        confirmDescription.textContent = approve
+            ? 'Voulez-vous accepter et publier cet événement ? Cette action est définitive.'
+            : 'Voulez-vous refuser cet événement ? Cette action est définitive.';
+        confirmSubmit.textContent = approve ? 'Confirmer la publication' : 'Confirmer le refus';
+        confirmStatus.textContent = '';
+        dialog.showModal();
+        confirmCancel.focus();
+    }
+    async function submitDecision(event, action) {
+        if (busy || !dialog.open || !selection) return;
         lock(true);
+        confirmSubmit.textContent = 'Envoi en cours…';
+        confirmStatus.textContent = 'Décision en cours. Veuillez patienter.';
         message.textContent = 'Décision en cours...';
         try {
             const result = await request(`/${event.idEvent}/${action}`, { method: 'PATCH' });
@@ -127,6 +153,7 @@
             message.textContent = result.message + (pending.length ? '' : ' Aucun événement en attente de validation.');
             try { await fetchPending(); }
             catch { message.textContent += ' Actualisation impossible : utilise « Actualiser la liste ».'; }
+            closeConfirmation();
         } catch (error) {
             let text = errorText(error);
             if (error.status === 409 || error.status === 404) {
@@ -135,8 +162,37 @@
                 catch { text += ' Actualisation impossible. Réessaie.'; }
             }
             message.textContent = text;
-        } finally { lock(false); }
+            confirmStatus.textContent = text;
+            if (error.status === 409 || error.status === 404) closeConfirmation();
+        } finally {
+            lock(false);
+            confirmSubmit.textContent = action === 'approve' ? 'Confirmer la publication' : 'Confirmer le refus';
+        }
     }
+    confirmForm.addEventListener('submit', event => {
+        event.preventDefault();
+        if (selection && !busy) submitDecision(selection.event, selection.action);
+    });
+    function restoreFocus() {
+        if (!selection || dialog.open) return;
+        const trigger = selection?.trigger;
+        selection = null;
+        if (trigger?.isConnected && !trigger.disabled) trigger.focus();
+        else {
+            message.setAttribute('tabindex', '-1');
+            message.focus();
+        }
+    }
+    function closeConfirmation() {
+        dialog.close();
+        restoreFocus();
+    }
+    confirmCancel.addEventListener('click', () => { if (!busy) closeConfirmation(); });
+    dialog.addEventListener('cancel', event => {
+        event.preventDefault();
+        if (!busy) closeConfirmation();
+    });
+    dialog.addEventListener('close', restoreFocus);
     refresh.addEventListener('click', () => { if (!busy) { load(); loadStats(); } });
     load();
     loadStats();

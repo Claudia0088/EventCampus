@@ -1,5 +1,5 @@
 const API_BASE_URL =
-    `http://${window.location.hostname}:8080/api/auth`;
+    `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/auth`;
 
 const loginForm = document.getElementById("loginForm");
 const loginMessage = document.getElementById("loginMessage");

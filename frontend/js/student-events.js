@@ -53,6 +53,10 @@
         const footer = element('div', 'event-card-footer');
         footer.append(element('span', 'event-status status-upcoming', 'Publié'));
         if (window.EventCampusRegistrations) footer.append(window.EventCampusRegistrations.controls(event));
+        if (window.EventCampusReports) {
+            footer.classList.add('reportable-event-actions');
+            footer.append(window.EventCampusReports.control(event));
+        }
         content.append(footer);
         article.append(visual, content);
         return article;
@@ -78,7 +82,7 @@
 
     async function load() {
         try {
-            const response = await fetch(`http://${window.location.hostname}:8080/api/events`, {
+            const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/events`, {
                 credentials: 'include', headers: { Accept: 'application/json' }
             });
             if (response.status === 401 || response.status === 403) {
