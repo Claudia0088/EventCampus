@@ -1,0 +1,19 @@
+/* Standalone catalogue; reuse the student cards and EventCampus palette. */
+.catalogue-main { max-width: 1240px; margin: 0 auto; padding: 48px 36px; }
+.catalogue-page h1 { margin: 10px 0 16px; font-size: clamp(28px, 4vw, 40px); }
+.catalogue-page .mainNavigation a[aria-current="page"] { color: var(--campus-blue); }
+.catalogue-login { margin-top: 20px; text-align: center; }
+.catalogue-page .event-card-content h3,
+.catalogue-page .event-description,
+.catalogue-page .event-location { overflow-wrap: anywhere; }
+@media (max-width: 850px) {
+    .catalogue-page header { padding: 18px 24px; flex-wrap: wrap; gap: 16px; }
+    .catalogue-page .mainNavigation { flex-wrap: wrap; gap: 12px 20px; }
+    .catalogue-main { padding: 32px 24px; }
+    .catalogue-page .event-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 550px) {
+    .catalogue-page .event-grid { grid-template-columns: 1fr; }
+    .catalogue-page .mainNavigation { font-size: 13px; }
+    .catalogue-main { padding: 28px 18px; }
+}

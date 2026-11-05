@@ -1,0 +1,68 @@
+/* Moderator-only additions; the palette and shared layout come from espace.css. */
+.moderator-dashboard .dashboard-main { min-width: 0; }
+.moderator-dashboard .sidebar-profile > div:last-child { min-width: 0; }
+.moderator-dashboard #sidebarUserName { overflow-wrap: anywhere; }
+.moderator-dashboard .sidebar-nav a > span:first-child { width: 22px; flex-shrink: 0; text-align: center; font-size: 21px; }
+.moderator-header-title { display: grid; gap: 3px; min-width: 0; }
+.moderator-header-title strong { font-size: 18px; }
+.moderator-dashboard #userRoleBadge { flex-shrink: 0; }
+.moderator-welcome { display: flex; align-items: center; justify-content: space-between; gap: 32px; padding: 36px; border: 1px solid var(--campus-blue-light); border-radius: var(--radius-card); background: linear-gradient(120deg, var(--card-background), var(--campus-blue-pale)); }
+.moderator-welcome h1 { max-width: 640px; margin: 12px 0; font-size: clamp(25px, 3vw, 36px); letter-spacing: -.7px; }
+.moderator-welcome p { max-width: 620px; margin-bottom: 24px; }
+.moderator-welcome-mark { display: grid; place-items: center; flex-shrink: 0; width: 112px; height: 112px; border: 12px solid var(--campus-blue-light); border-radius: 32px; background: var(--card-background); color: var(--campus-blue); font-size: 54px; transform: rotate(-8deg); }
+.moderator-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin: 26px 0 36px; }
+.moderator-stat { display: flex; gap: 16px; align-items: flex-start; padding: 24px; border: 1px solid var(--border-color); border-radius: var(--radius-card); background: var(--card-background); box-shadow: var(--shadow-card); }
+.moderator-stat > div { min-width: 0; }
+.moderator-stat p { margin: 0 0 8px; font-size: 13px; }
+.moderator-stat strong { display: block; font-size: 32px; line-height: 1.2; }
+.moderator-stat small { display: block; margin-top: 8px; color: var(--text-muted); font-size: 11px; }
+.moderator-stat .stat-unavailable { font-size: 18px; padding-top: 7px; }
+.stat-icon { display: grid; place-items: center; flex-shrink: 0; width: 44px; height: 44px; border-radius: var(--radius-small); color: var(--campus-blue); background: var(--campus-blue-pale); font-size: 23px; }
+.stat-warning { color: var(--warning); background: var(--warning-light); }
+.stat-success { color: var(--success); background: var(--success-light); }
+.moderator-panel { padding: 28px; background: var(--card-background); border: 1px solid var(--border-color); border-radius: var(--radius-card); box-shadow: var(--shadow-card); }
+.moderator-coming-soon p { max-width: 720px; }
+.moderator-section-heading { display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+.moderator-section-heading button { flex-shrink: 0; }
+.moderator-dashboard #pendingEvents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.moderation-card .event-card-content { padding: 26px; }
+.moderation-card h3 { margin: 18px 0 12px; font-size: 21px; overflow-wrap: anywhere; }
+.moderation-card .event-description { min-height: 0; margin-bottom: 22px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.moderation-meta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 0; padding: 20px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
+.moderation-meta dt { color: var(--text-muted); font-size: 11px; margin-bottom: 4px; }
+.moderation-meta dd { margin: 0; font-size: 13px; font-weight: 650; overflow-wrap: anywhere; }
+.moderation-creator { margin: 18px 0 0; font-size: 12px; overflow-wrap: anywhere; }
+.moderation-card .event-card-footer { justify-content: flex-end; border-top: 0; padding-top: 0; }
+.moderation-card .approve-button { background: var(--campus-blue); color: var(--card-background); border-color: var(--campus-blue); }
+.moderation-card .approve-button:hover { background: var(--campus-blue-dark); }
+.moderation-card .reject-button { color: var(--danger); border-color: var(--border-color); }
+.moderation-card .reject-button:hover { background: var(--danger-light); }
+.moderator-profile { display: flex; align-items: center; gap: 24px; flex-wrap: wrap; }
+.moderator-profile p { margin: 0; }
+.moderator-dashboard button:focus-visible, .moderator-dashboard a:focus-visible { outline: 3px solid var(--campus-blue); outline-offset: 4px; }
+@media (max-width: 1150px) { .moderator-stats { grid-template-columns: 1fr; } }
+@media (max-width: 650px) {
+    .moderator-welcome { padding: 24px; }
+    .moderator-welcome-mark { display: none; }
+    .moderator-header-title strong { font-size: 14px; }
+    .moderator-header-title .section-eyebrow { display: none; }
+    .moderator-dashboard #pendingEvents { grid-template-columns: 1fr; }
+    .moderator-section-heading { align-items: flex-start; flex-direction: column; }
+    .moderation-meta { grid-template-columns: 1fr; }
+    .moderator-profile { align-items: flex-start; flex-direction: column; }
+    .moderator-panel, .moderation-card .event-card-content { padding: 22px; }
+}
+/* Confirmation de moderation, coherente avec les dialogues d'administration. */
+.moderation-dialog { width: min(94vw, 520px); max-height: 90vh; overflow: auto; margin: auto; padding: 30px; border: 1px solid var(--border-color); border-radius: var(--radius-card); background: var(--card-background); color: var(--text-main); box-shadow: var(--shadow-hover); }
+.moderation-dialog::backdrop { background: rgba(30, 41, 59, .35); }
+.moderation-dialog[open] { animation: moderation-dialog-enter .18s ease-out; }
+.moderation-dialog h2 { margin: 12px 0; }
+.moderation-dialog p { overflow-wrap: anywhere; }
+.moderation-dialog .moderation-dialog-event { padding: 12px 14px; border-radius: var(--radius-small); background: var(--campus-blue-pale); color: var(--campus-blue-dark); font-weight: 650; }
+.moderation-dialog #moderationConfirmStatus:empty { display: none; }
+.moderation-dialog #moderationConfirmStatus { color: var(--text-main); }
+.moderation-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.moderation-dialog-actions button { min-height: 44px; white-space: normal; text-align: center; }
+@keyframes moderation-dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 550px) { .moderation-dialog { padding: 22px; } .moderation-dialog-actions { flex-direction: column-reverse; } .moderation-dialog-actions button { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .moderation-dialog[open] { animation: none; } }

@@ -7,7 +7,7 @@
 /* 1. CONFIGURATION */
 
 const API_BASE_URL =
-    `http://${window.location.hostname}:8080/api/auth`;
+    `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/auth`;
 
 
 /* 2. ÉLÉMENTS DU PROFIL */
@@ -53,7 +53,9 @@ const administrationAction =
 /* 4. MENU MOBILE */
 
 const menuToggle = document.getElementById("menuToggle");
+const headerNavigation = document.getElementById("dashboardNavigation");
 const sidebar = document.getElementById("sidebar");
+const headerBreakpoint = window.matchMedia("(max-width: 1399px)");
 
 const sidebarOverlay =
     document.getElementById("sidebarOverlay");
@@ -122,6 +124,12 @@ function initiale(prenom, nom) {
 /* 9. MENU MOBILE */
 
 function ouvrirMenu() {
+    if (headerNavigation) {
+        headerNavigation.classList.add("menu-open");
+        menuToggle?.setAttribute("aria-expanded", "true");
+        menuToggle?.setAttribute("aria-label", "Fermer le menu");
+        return;
+    }
     if (sidebar) {
         sidebar.classList.add("sidebar-open");
     }
@@ -139,6 +147,12 @@ function ouvrirMenu() {
 }
 
 function fermerMenu() {
+    if (headerNavigation) {
+        headerNavigation.classList.remove("menu-open");
+        menuToggle?.setAttribute("aria-expanded", "false");
+        menuToggle?.setAttribute("aria-label", "Ouvrir le menu");
+        return;
+    }
     if (sidebar) {
         sidebar.classList.remove("sidebar-open");
     }
@@ -158,6 +172,7 @@ function fermerMenu() {
 if (menuToggle) {
     menuToggle.addEventListener("click", function () {
         const menuOuvert =
+            headerNavigation ? headerNavigation.classList.contains("menu-open") :
             sidebar?.classList.contains("sidebar-open");
 
         if (menuOuvert) {
@@ -174,22 +189,33 @@ if (sidebarOverlay) {
 
 document.addEventListener("keydown", function (event) {
     if (event.key === "Escape") {
+        const restoreFocus = headerNavigation?.classList.contains("menu-open");
         fermerMenu();
+        if (restoreFocus) menuToggle?.focus();
     }
 });
 
 window.addEventListener("resize", function () {
-    if (window.innerWidth > 850) {
+    if (headerNavigation ? !headerBreakpoint.matches : window.innerWidth > 850) {
         fermerMenu();
     }
 });
 
+
+if (headerNavigation) {
+    document.addEventListener("click", function (event) {
+        if (!event.target.closest(".dashboard-header")) fermerMenu();
+    });
+    document.addEventListener("focusin", function (event) {
+        if (!event.target.closest(".dashboard-header")) fermerMenu();
+    });
+}
 
 /* 10. NAVIGATION ENTRE LES RUBRIQUES */
 
 function configurerLiensNavigation() {
     const liens = document.querySelectorAll(
-        ".sidebar-nav a[href^='#']"
+        ".sidebar-nav a[href^='#'], .header-nav a[href^='#']"
     );
 
     function actualiserLienActif() {
@@ -210,6 +236,7 @@ function configurerLiensNavigation() {
 
     liens.forEach(function (link) {
         link.addEventListener("click", function () {
+            if (headerNavigation && headerBreakpoint.matches) menuToggle?.focus();
             fermerMenu();
 
             const cible = document.querySelector(
@@ -364,7 +391,8 @@ async function verifierSession() {
         }
 
         // Redirection si le compte n'utilise pas le bon espace.
-        if (roleAttendu && role !== roleAttendu) {
+        if ((roleAttendu && role !== roleAttendu)
+                || document.documentElement.hasAttribute("data-role-entry")) {
             const pagesSelonRole = {
                 USER: "espace-user.html",
                 MODERATOR: "espace-moderator.html",
@@ -440,7 +468,7 @@ async function verifierSession() {
 /* 13. RECHERCHE D'ÉVÉNEMENTS */
 
 function filtrerEvenements() {
-    if (!eventsContainer) {
+    if (!eventsContainer || eventsContainer.dataset.liveEvents) {
         return;
     }
 

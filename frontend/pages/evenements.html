@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les événements du campus | EventCampus</title>
+    <meta name="description" content="Découvrez les événements publiés sur EventCampus et trouvez les activités de votre campus.">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/espace.css">
+    <link rel="stylesheet" href="../css/evenements.css">
+    <script src="../js/event-images.js" defer></script>
+    <script src="../js/event-registrations.js" defer></script>
+    <script src="../js/student-events.js" defer></script>
+</head>
+<body class="catalogue-page">
+    <header>
+        <div class="logo"><a href="../index.html">EventCampus</a></div>
+        <nav class="mainNavigation" aria-label="Navigation principale">
+            <a href="../index.html">Accueil</a>
+            <a href="evenements.html" aria-current="page">Événements</a>
+            <a href="mon-espace.html">Mon espace</a>
+            <a href="connexion.html">Connexion</a>
+            <a href="inscription.html">Inscription</a>
+        </nav>
+    </header>
+    <main class="catalogue-main">
+        <section aria-labelledby="catalogueTitle">
+            <div class="section-heading">
+                <div>
+                    <span class="section-eyebrow">LA VIE DU CAMPUS</span>
+                    <h1 id="catalogueTitle">Les événements du campus</h1>
+                    <p class="section-description">Découvrez les activités, les rencontres et les ateliers proposés par la communauté étudiante.</p>
+                </div>
+            </div>
+            <div class="event-toolbar">
+                <label class="event-search">
+                    <span aria-hidden="true">⌕</span>
+                    <input type="search" id="eventSearch" placeholder="Rechercher un événement..." aria-label="Rechercher un événement">
+                </label>
+                <label class="event-filter">
+                    <span class="sr-only">Filtrer par catégorie</span>
+                    <select id="eventCategoryFilter"><option value="">Toutes les catégories</option></select>
+                </label>
+            </div>
+            <p id="registrationActionMessage" class="demo-notice" role="status" aria-live="polite"></p>
+            <div class="event-grid" id="eventsContainer" data-live-events="true" aria-busy="true"></div>
+            <p class="demo-notice" id="eventsMessage" role="status" aria-live="polite">Chargement des événements...</p>
+            <p id="eventsLoginPrompt" class="catalogue-login" hidden>
+                <a class="primary-button" href="connexion.html">Se connecter pour consulter le catalogue</a>
+            </p>
+            <p class="section-description">La consultation est ouverte à tous. Connectez-vous avec un compte étudiant pour vous inscrire. Les favoris seront disponibles ultérieurement.</p>
+            <noscript><p class="demo-notice">Activez JavaScript pour consulter les événements du campus.</p></noscript>
+        </section>
+    </main>
+    <footer class="dashboard-footer"><p>EventCampus · La vie étudiante, au même endroit.</p></footer>
+</body>
+</html>

@@ -3,153 +3,115 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Espace administrateur | EventCampus</title>
-
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/espace.css">
-
+    <link rel="stylesheet" href="../css/moderator.css">
+    <link rel="stylesheet" href="../css/admin.css">
     <script src="../js/espace.js" defer></script>
+    <script src="../js/admin.js" defer></script>
+    <link rel="stylesheet" href="../css/qr-scanner.css">
+    <script src="../js/qr-scanner.js" defer></script>
 </head>
-
-<body>
-    <div class="dashboard-layout">
-
-        <aside class="sidebar" id="sidebar">
-            <a href="../index.html" class="brand">
-                <span class="brand-icon">E</span>
-                <span>EventCampus</span>
-            </a>
-
-            <div class="sidebar-profile">
-                <div class="avatar" id="userAvatar">E</div>
-                <div>
-                    <strong id="sidebarUserName">Administrateur</strong>
-                    <p id="sidebarUserRole">Administration</p>
-                </div>
-            </div>
-
-            <nav class="sidebar-nav">
-                <a href="#accueil" class="active">Accueil</a>
-                <a href="#utilisateurs">Utilisateurs</a>
-                <a href="#roles">Gestion des rôles</a>
-                <a href="#evenements">Événements</a>
-                <a href="#profil">Mon profil</a>
-            </nav>
-
-            <button type="button" id="logoutButton"
-                    class="logout-button">
-                Se déconnecter
-            </button>
-        </aside>
-
-        <main class="dashboard-main">
-
-            <header class="dashboard-header">
-                <button type="button" id="menuToggle"
-                        aria-label="Ouvrir le menu"
-                        aria-expanded="false">
-                    ☰
-                </button>
-
-                <span>Administration EventCampus</span>
-
-                <span class="role-badge" id="userRoleBadge">
-                    Administrateur
-                </span>
-            </header>
-
+<body class="moderator-dashboard admin-dashboard">
+<div class="dashboard-layout horizontal-dashboard">
+    <header class="dashboard-header">
+<a href="../index.html" class="brand"><span class="brand-icon" aria-hidden="true">E</span><span>EventCampus</span></a>
+<button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
+<nav class="header-nav" id="dashboardNavigation" aria-label="Navigation de l'administration">
+            <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Tableau de bord</span></a>
+            <a href="#utilisateurs" class="nav-link"><span aria-hidden="true">◎</span><span>Utilisateurs</span></a>
+            <a href="#categories" class="nav-link"><span aria-hidden="true">▤</span><span>Catégories</span></a>
+            <a href="#evenements" class="nav-link"><span aria-hidden="true">▦</span><span>Événements</span></a>
+            <a href="#profil" class="nav-link"><span aria-hidden="true">◉</span><span>Mon profil</span></a>
+            <a href="#scanner" class="nav-link"><span aria-hidden="true">&#9638;</span><span>Scanner les pr&eacute;sences</span></a>
+</nav>
+<div class="header-account">
+<div class="header-profile"><div id="userAvatar" aria-hidden="true">E</div><div><strong id="sidebarUserName">Chargement...</strong><p id="sidebarUserRole">Administration</p></div></div>
+<span id="userRoleBadge">Administrateur</span>
+<button type="button" id="logoutButton" class="logout-button"><span aria-hidden="true">↪</span><span>Déconnexion</span></button>
+</div>
+</header>
+    <main class="dashboard-main">
+        
+        <div class="dashboard-content">
             <div id="dashboardAlert" role="alert" hidden></div>
-
-            <section id="accueil" class="welcome-panel">
-                <p class="eyebrow">PILOTAGE DE LA PLATEFORME</p>
-
-                <h1>
-                    Bonjour <span id="welcomeName">!</span>
-                </h1>
-
-                <p id="welcomeDescription">
-                    Supervise la plateforme EventCampus et contribue
-                    à son bon fonctionnement.
-                </p>
+            <section id="accueil" class="moderator-welcome dashboard-section">
+                <div><span class="welcome-eyebrow">UNE VUE D'ENSEMBLE DU CAMPUS</span><h1>Bienvenue dans votre espace d'administration</h1><p>Bonjour <strong id="welcomeName">...</strong>. Retrouvez les comptes, les catégories et les événements de la plateforme dans votre espace de supervision.</p></div>
+                <div class="moderator-welcome-mark" aria-hidden="true">▦</div>
             </section>
-
+            <div class="admin-load-bar"><p id="adminMessage" role="status" aria-live="polite">Chargement du tableau de bord...</p><button type="button" class="secondary-button" id="reloadAdmin">Actualiser</button></div>
+            <section class="admin-stats" aria-label="Statistiques de la plateforme" id="adminStats" aria-busy="true">
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">◎</span><div><p>Total des utilisateurs</p><strong data-stat="totalUsers">—</strong><small>Tous les comptes</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">◉</span><div><p>Comptes USER</p><strong data-stat="userAccounts">—</strong><small>Étudiants</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">✓</span><div><p>Comptes MODERATOR</p><strong data-stat="moderatorAccounts">—</strong><small>Équipe de modération</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">▤</span><div><p>Comptes ADMIN</p><strong data-stat="adminAccounts">—</strong><small>Administration</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon" aria-hidden="true">▦</span><div><p>Total des événements</p><strong data-stat="totalEvents">—</strong><small>Tous statuts confondus</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon stat-success" aria-hidden="true">✓</span><div><p>Événements publiés</p><strong data-stat="publishedEvents">—</strong><small>Visibles au catalogue</small></div></article>
+                <article class="moderator-stat"><span class="stat-icon stat-warning" aria-hidden="true">◷</span><div><p>Événements en attente</p><strong data-stat="pendingEvents">—</strong><small>À examiner en modération</small></div></article>
+            </section>
             <section id="utilisateurs" class="dashboard-section">
-                <h2>Gestion des utilisateurs</h2>
-
-                <div class="dashboard-card">
-                    <h3>Comptes de la plateforme</h3>
-
-                    <p>
-                        Cette rubrique permettra de consulter les comptes,
-                        de vérifier leur statut et de gérer les utilisateurs.
-                    </p>
-
-                    <p>
-                        <strong>Statut :</strong>
-                        fonctionnalité à connecter au backend.
-                    </p>
-                </div>
+                <div class="section-heading"><div><span class="section-eyebrow">LES MEMBRES DU CAMPUS</span><h2>Utilisateurs</h2><p class="section-description">Gérez les rôles et les accès des comptes. Chaque modification nécessite une confirmation.</p></div></div>
+                <label class="event-search admin-search"><span aria-hidden="true">⌕</span><input id="adminUserSearch" type="search" placeholder="Nom, e-mail, rôle ou statut..." aria-label="Rechercher un utilisateur"></label>
+                <div class="admin-table-wrap"><table><caption class="sr-only">Comptes existants</caption><thead><tr><th scope="col">Nom</th><th scope="col">E-mail</th><th scope="col">Rôle</th><th scope="col">Statut</th><th scope="col">Actions</th></tr></thead><tbody id="adminUsers"><tr><td colspan="5">Chargement...</td></tr></tbody></table></div>
             </section>
-
-            <section id="roles" class="dashboard-section">
-                <h2>Gestion des rôles</h2>
-
-                <div class="dashboard-card">
-                    <h3>Autorisations des comptes</h3>
-
-                    <p>
-                        L'administration pourra gérer les rôles
-                        USER, MODERATOR et ADMIN selon les règles
-                        de sécurité de l'application.
-                    </p>
-
-                    <p>
-                        La modification réelle des rôles sera ajoutée
-                        après la mise en place des autorisations backend.
-                    </p>
-                </div>
+            <section id="categories" class="dashboard-section">
+                <div class="section-heading"><div><span class="section-eyebrow">ORGANISER LE CATALOGUE</span><h2>Catégories</h2><p class="section-description">Gérez les catégories. Une catégorie utilisée par un événement ne peut pas être supprimée.</p></div></div>
+                <button type="button" class="primary-button" id="addCategory" disabled>Ajouter une catégorie</button>
+                <div id="adminCategories" class="admin-category-grid"><p>Chargement...</p></div>
             </section>
-
             <section id="evenements" class="dashboard-section">
-                <h2>Gestion des événements</h2>
-
-                <div class="dashboard-card">
-                    <h3>Vue générale des événements</h3>
-
-                    <p>
-                        Cette rubrique permettra de superviser les événements
-                        publiés sur le campus et leur état de modération.
-                    </p>
-                </div>
+                <div class="section-heading"><div><span class="section-eyebrow">SUPERVISION DU PROGRAMME</span><h2>Événements</h2><p class="section-description">Une vue de tous les événements et de leur statut.</p></div></div>
+                <label class="event-filter admin-filter"><span>Filtrer par statut</span><select id="adminStatusFilter"><option value="">Tous les statuts</option></select></label>
+                <div class="admin-table-wrap"><table><caption class="sr-only">Événements du campus</caption><thead><tr><th scope="col">Titre</th><th scope="col">Créateur</th><th scope="col">Catégorie</th><th scope="col">Date</th><th scope="col">Statut</th></tr></thead><tbody id="adminEvents"><tr><td colspan="5">Chargement...</td></tr></tbody></table></div>
             </section>
-
-            <section id="profil" class="dashboard-section">
-                <h2>Mon profil</h2>
-
-                <div class="dashboard-card">
-                    <div class="avatar" id="profileAvatar">E</div>
-
-                    <p>
-                        <strong>Nom :</strong>
-                        <span id="userFullName">Chargement...</span>
-                    </p>
-
-                    <p>
-                        <strong>E-mail :</strong>
-                        <span id="userEmail">Chargement...</span>
-                    </p>
-                </div>
-            </section>
-
-            <footer class="dashboard-footer">
-                © <span id="currentYear"></span> EventCampus
-            </footer>
-
-        </main>
-
-        <div id="sidebarOverlay" hidden></div>
-
+            <section id="scanner" class="dashboard-section" aria-labelledby="scannerTitle">
+    <div class="section-heading"><div><span class="section-eyebrow">PR&Eacute;SENCES</span><h2 id="scannerTitle">Scanner les pr&eacute;sences</h2><p class="section-description">Choisissez un &eacute;v&eacute;nement, scannez le billet puis confirmez la pr&eacute;sence.</p></div></div>
+    <div class="qr-scanner-panel">
+        <div class="qr-scanner-event"><label for="scanEvent">Choisir un &eacute;v&eacute;nement<select id="scanEvent" aria-describedby="scanEventHint"><option value="">Chargement...</option></select></label><button type="button" id="scanRefresh" class="secondary-button">Actualiser</button></div>
+        <p id="scanEventHint" class="qr-scanner-hint">&Eacute;v&eacute;nements du jour, heure de Paris.</p>
+        <div class="qr-scanner-actions"><button type="button" id="scanStart" class="primary-button" disabled>Ouvrir la cam&eacute;ra</button><button type="button" id="scanConfirm" class="secondary-button" disabled>Valider la pr&eacute;sence</button><button type="button" id="scanStop" class="secondary-button" hidden>Arr&ecirc;ter la cam&eacute;ra</button></div>
+        <video id="scanVideo" autoplay muted playsinline hidden aria-label="Aper&ccedil;u de la cam&eacute;ra pour lire le QR code"></video>
+        <button type="button" id="scanCapture" class="primary-button" hidden>Photographier et valider</button>
+        <div class="qr-scanner-feedback"><p id="scanStatus" role="status" aria-live="polite" aria-atomic="true">Chargement...</p><p id="scanResult" aria-live="polite" aria-atomic="true"></p></div>
+        <details id="scanAlternative" class="qr-scanner-alternative"><summary>Autre m&eacute;thode de scan <span aria-hidden="true">&#9662;</span></summary>
+            <form id="scanImageForm"><label for="scanImage">Importer une photo du QR code<input id="scanImage" type="file" accept="image/png,image/jpeg" required aria-describedby="scanImageHint"></label><p id="scanImageHint" class="qr-scanner-hint">PNG ou JPEG, 5 Mo maximum.</p><button type="submit" class="secondary-button" disabled>V&eacute;rifier la photo et enregistrer la pr&eacute;sence</button></form>
+        </details>
+        <p class="qr-scanner-hint qr-scanner-note">Cam&eacute;ra sur t&eacute;l&eacute;phone : HTTPS requis. V&eacute;rifiez aussi l'identit&eacute; du participant.</p>
     </div>
+</section>
+
+<section id="profil" class="dashboard-section">
+                <div class="section-heading"><div><span class="section-eyebrow">VOTRE COMPTE</span><h2>Mon profil</h2></div></div>
+                <div class="moderator-panel moderator-profile"><div id="profileAvatar" aria-hidden="true">E</div><p><strong>Nom</strong><br><span id="userFullName">Chargement...</span></p><p><strong>E-mail</strong><br><span id="userEmail">Chargement...</span></p><span class="event-status status-upcoming">Administrateur</span></div>
+            </section>
+            <footer class="dashboard-footer"><p>© <span id="currentYear"></span> EventCampus · Administration</p></footer>
+        </div>
+    </main>
+    
+</div>
+    <dialog id="userActionDialog" class="admin-dialog" aria-labelledby="userActionTitle">
+        <form id="userActionForm">
+            <span class="section-eyebrow">GESTION DES ACCÈS</span>
+            <h2 id="userActionTitle">Modifier le rôle</h2>
+            <p id="userActionDetails"></p>
+            <label id="userRoleLabel">Nouveau rôle<select id="userRoleSelect"><option>USER</option><option>MODERATOR</option><option>ADMIN</option></select></label>
+            <p id="userActionMessage" role="status" aria-live="polite"></p>
+            <div class="event-card-footer"><button type="button" class="secondary-button" id="cancelUserAction">Annuler</button><button type="submit" class="primary-button" id="confirmUserAction">Confirmer</button></div>
+        </form>
+    </dialog>
+    <dialog id="categoryDialog" class="admin-dialog" aria-labelledby="categoryDialogTitle">
+        <form id="categoryForm">
+            <span class="section-eyebrow">CATÉGORIES DU CAMPUS</span>
+            <h2 id="categoryDialogTitle">Ajouter une catégorie</h2>
+            <p id="categoryDialogDetails"></p>
+            <div id="categoryFields">
+                <label>Nom<input id="categoryName" required maxlength="100" autocomplete="off"></label>
+                <label>Description facultative<textarea id="categoryDescription" maxlength="255" rows="4"></textarea></label>
+            </div>
+            <p id="categoryDialogMessage" role="status" aria-live="polite"></p>
+            <div class="event-card-footer"><button type="button" class="secondary-button" id="cancelCategory">Annuler</button><button type="submit" class="primary-button" id="confirmCategory">Confirmer l'enregistrement</button></div>
+        </form>
+    </dialog>
 </body>
 </html>
