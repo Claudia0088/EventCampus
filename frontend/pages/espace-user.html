@@ -14,6 +14,8 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/espace.css">
 
+    <link rel="stylesheet" href="../css/header.css">
+    <script src="../js/header.js" defer></script>
     <script src="../js/espace.js" defer></script>
     <script src="../js/event-images.js" defer></script>
     <script src="../js/qr-code.js" defer></script>
@@ -23,14 +25,12 @@
 </head>
 
 <body>
+    <div id="siteHeader"></div>
 <div class="dashboard-layout horizontal-dashboard">
 
     <!-- =============== MENU LATÉRAL =============== -->
-    <header class="dashboard-header">
-<a class="brand" href="../index.html" aria-label="EventCampus - Accueil">
-            <span class="brand-icon" aria-hidden="true">E</span>
-            <span>EventCampus</span>
-        </a>
+    <div class="dashboard-header" role="region" aria-label="Navigation de votre espace">
+
 <button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
 <nav class="header-nav" id="dashboardNavigation" aria-label="Navigation principale">
 
@@ -70,21 +70,7 @@
             </a>
 
         </nav>
-<div class="header-account">
-<div class="header-profile">
-            <div id="userAvatar" aria-hidden="true">ET</div>
-            <div>
-                <strong id="sidebarUserName">Chargement...</strong>
-                <p id="sidebarUserRole">Étudiant</p>
-            </div>
-        </div>
-
-<button type="button" id="logoutButton" class="logout-button">
-            <span aria-hidden="true">↪</span>
-            <span>Déconnexion</span>
-        </button>
 </div>
-</header>
 
 
 

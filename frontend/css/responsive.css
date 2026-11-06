@@ -23,14 +23,7 @@
 
 /* Téléphones et petits écrans */
 @media screen and (max-width: 768px) {
-    header {
-        flex-direction: column;
-        align-items: center;
-        gap: 15px;
-        padding: 15px;
-    }
-
-    .mainNavigation {
+.mainNavigation {
         display: flex;
         flex-wrap: wrap;
         justify-content: center;

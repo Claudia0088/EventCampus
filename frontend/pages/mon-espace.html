@@ -10,23 +10,20 @@
     <link rel="stylesheet" href="../css/style.css">
     <link rel="stylesheet" href="../css/espace.css">
 
+    <link rel="stylesheet" href="../css/header.css">
+    <script src="../js/header.js" defer></script>
     <script src="../js/espace.js" defer></script>
 </head>
 
 <body class="dashboard-page">
+    <div id="siteHeader"></div>
 
     <div class="dashboard-layout">
 
         <!-- MENU LATERAL -->
         <aside class="sidebar" id="sidebar">
 
-            <a class="brand" href="../index.html">
-                <span class="brand-icon">E</span>
-                <span class="brand-text">
-                    <strong>EventCampus</strong>
-                    <small>La vie étudiante, ensemble</small>
-                </span>
-            </a>
+
 
             <div class="sidebar-profile">
                 <div class="avatar" id="userAvatar">E</div>
@@ -92,10 +89,7 @@
                     <p>Des rencontres, des projets et des souvenirs à créer.</p>
                 </div>
 
-                <button type="button" class="logout-button" id="logoutButton">
-                    <span>↪</span>
-                    Se déconnecter
-                </button>
+
             </div>
 
         </aside>
@@ -103,7 +97,7 @@
         <!-- CONTENU PRINCIPAL -->
         <main class="dashboard-main">
 
-            <header class="topbar">
+            <div class="topbar">
                 <button
                     type="button"
                     class="menu-toggle"
@@ -122,7 +116,7 @@
                 <a href="../index.html" class="topbar-link">
                     Voir le site <span>↗</span>
                 </a>
-            </header>
+            </div>
 
             <div class="dashboard-content" id="accueil">
 

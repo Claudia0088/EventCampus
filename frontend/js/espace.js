@@ -6,14 +6,10 @@
 
 /* 1. CONFIGURATION */
 
-const API_BASE_URL =
-    `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/auth`;
-
-
 /* 2. ÉLÉMENTS DU PROFIL */
 
 const userEmailElement = document.getElementById("userEmail");
-const logoutButton = document.getElementById("logoutButton");
+
 
 const welcomeName = document.getElementById("welcomeName");
 const welcomeDescription =
@@ -345,13 +341,8 @@ function configurerNavigation(role) {
 
 async function verifierSession() {
     try {
-        const response = await fetch(`${API_BASE_URL}/me`, {
-            method: "GET",
-            credentials: "include",
-            headers: {
-                Accept: "application/json"
-            }
-        });
+        const session = await window.EventCampusSession.ready;
+        const response = { status: session.status, ok: session.status === 200 };
 
         if (response.status === 401 || response.status === 403) {
             localStorage.removeItem("loggedIn");
@@ -368,7 +359,7 @@ async function verifierSession() {
             return;
         }
 
-        const user = await response.json();
+        const user = session.user;
 
         const prenom = user.firstName || "";
         const nom = user.lastName || "";
@@ -551,52 +542,7 @@ if (eventCategoryFilter) {
 }
 
 
-/* 14. DÉCONNEXION */
-
-if (logoutButton) {
-    logoutButton.addEventListener("click", async function () {
-        if (logoutButton.disabled) {
-            return;
-        }
-
-        logoutButton.disabled = true;
-
-        const ancienTexte = logoutButton.textContent;
-        logoutButton.textContent = "Déconnexion en cours...";
-
-        try {
-            const response = await fetch(
-                `${API_BASE_URL}/logout`,
-                {
-                    method: "POST",
-                    credentials: "include",
-                    headers: {
-                        Accept: "application/json"
-                    }
-                }
-            );
-
-            if (!response.ok) {
-                console.error(
-                    "Le serveur n'a pas confirmé la déconnexion."
-                );
-            }
-
-        } catch (error) {
-            console.error(
-                "Erreur lors de la déconnexion :",
-                error
-            );
-
-        } finally {
-            localStorage.removeItem("loggedIn");
-            localStorage.removeItem("userEmail");
-
-            window.location.replace("../index.html");
-        }
-    });
-}
-
+/* Logout is handled by the shared header. */
 
 /* 15. INITIALISATION */
 

@@ -10,6 +10,8 @@
     <link rel="stylesheet" href="../css/espace.css">
     <link rel="stylesheet" href="../css/moderator.css">
 
+    <link rel="stylesheet" href="../css/header.css">
+    <script src="../js/header.js" defer></script>
     <script src="../js/espace.js" defer></script>
     <script src="../js/moderator-events.js" defer></script>
     <link rel="stylesheet" href="../css/qr-scanner.css">
@@ -17,13 +19,11 @@
 </head>
 
 <body class="moderator-dashboard">
+    <div id="siteHeader"></div>
     <div class="dashboard-layout horizontal-dashboard">
 
-        <header class="dashboard-header">
-<a href="../index.html" class="brand">
-                <span class="brand-icon">E</span>
-                <span>EventCampus</span>
-            </a>
+        <div class="dashboard-header" role="region" aria-label="Navigation de votre espace">
+
 <button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
 <nav class="header-nav" id="dashboardNavigation" aria-label="Navigation de modération">
                 <a href="#accueil" class="nav-link active"><span aria-hidden="true">⌂</span><span>Accueil</span></a>
@@ -32,23 +32,7 @@
                 <a href="#profil" class="nav-link"><span aria-hidden="true">◎</span><span>Mon profil</span></a>
                 <a href="#scanner" class="nav-link"><span aria-hidden="true">&#9638;</span><span>Scanner les pr&eacute;sences</span></a>
 </nav>
-<div class="header-account">
-<div class="header-profile">
-                <div class="avatar" id="userAvatar">E</div>
-                <div>
-                    <strong id="sidebarUserName">Modérateur</strong>
-                    <p id="sidebarUserRole">Équipe de modération</p>
-                </div>
-            </div>
-<span class="role-badge" id="userRoleBadge">
-                    MODERATOR
-                </span>
-<button type="button" id="logoutButton"
-                    class="logout-button">
-                <span aria-hidden="true">↪</span><span>Se déconnecter</span>
-            </button>
 </div>
-</header>
 
         <main class="dashboard-main">
 
