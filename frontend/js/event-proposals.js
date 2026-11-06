@@ -1,7 +1,7 @@
 (() => {
     const form = document.getElementById('eventProposalForm');
     if (!form) return;
-    const base = `http://${window.location.hostname}:8080/api/user/events`;
+    const base = `${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/user/events`;
     const message = document.getElementById('proposalMessage');
     const listMessage = document.getElementById('myProposalsMessage');
     const list = document.getElementById('myProposalsContainer');

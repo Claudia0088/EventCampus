@@ -23,25 +23,16 @@
 </head>
 
 <body>
-<div class="dashboard-layout">
+<div class="dashboard-layout horizontal-dashboard">
 
     <!-- =============== MENU LATÉRAL =============== -->
-    <aside class="sidebar" id="sidebar">
-
-        <a class="brand" href="../index.html" aria-label="EventCampus - Accueil">
+    <header class="dashboard-header">
+<a class="brand" href="../index.html" aria-label="EventCampus - Accueil">
             <span class="brand-icon" aria-hidden="true">E</span>
             <span>EventCampus</span>
         </a>
-
-        <div class="sidebar-profile">
-            <div id="userAvatar" aria-hidden="true">ET</div>
-            <div>
-                <strong id="sidebarUserName">Chargement...</strong>
-                <p id="sidebarUserRole">Étudiant</p>
-            </div>
-        </div>
-
-        <nav class="sidebar-nav" aria-label="Navigation principale">
+<button type="button" id="menuToggle" class="menu-toggle" aria-label="Ouvrir le menu" aria-controls="dashboardNavigation" aria-expanded="false"><span aria-hidden="true">&#9776;</span><span>Menu</span></button>
+<nav class="header-nav" id="dashboardNavigation" aria-label="Navigation principale">
 
             <a href="#accueil" class="nav-link active" data-section="accueil">
                 <span aria-hidden="true">⌂</span>
@@ -79,44 +70,31 @@
             </a>
 
         </nav>
+<div class="header-account">
+<div class="header-profile">
+            <div id="userAvatar" aria-hidden="true">ET</div>
+            <div>
+                <strong id="sidebarUserName">Chargement...</strong>
+                <p id="sidebarUserRole">Étudiant</p>
+            </div>
+        </div>
 
-        <button type="button" id="logoutButton" class="logout-button">
+<button type="button" id="logoutButton" class="logout-button">
             <span aria-hidden="true">↪</span>
             <span>Déconnexion</span>
         </button>
+</div>
+</header>
 
-    </aside>
 
-    <div id="sidebarOverlay" class="sidebar-overlay"></div>
 
     <!-- =============== CONTENU PRINCIPAL =============== -->
     <main class="dashboard-main">
 
-        <header class="topbar">
-
-            <button
-                type="button"
-                class="menu-toggle"
-                id="menuToggle"
-                aria-label="Ouvrir le menu"
-                aria-controls="sidebar"
-                aria-expanded="false"
-            >
-                ☰
-            </button>
-
-            <div class="breadcrumb">
-                <a href="../index.html">EventCampus</a>
-                <span aria-hidden="true">/</span>
-                <span>Mon espace étudiant</span>
-            </div>
-
-            <a class="topbar-link" href="../index.html">
+        <div class="dashboard-utility"><a class="topbar-link" href="../index.html">
                 <span aria-hidden="true">←</span>
                 <span>Retour au site</span>
-            </a>
-
-        </header>
+            </a></div>
 
         <div class="dashboard-content">
 

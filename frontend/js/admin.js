@@ -29,7 +29,7 @@
     const categoryCancel = document.getElementById('cancelCategory');
     let categoryAction = null;
     async function categoryRequest(path, options = {}) {
-        const response = await fetch(`http://${window.location.hostname}:8080/api/admin/categories${path}`, {
+        const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/admin/categories${path}`, {
             ...options, credentials: 'include', headers: { Accept: 'application/json', ...(options.headers || {}) }
         });
         const result = await response.json().catch(() => ({}));
@@ -129,7 +129,7 @@
         busy = true; refresh.disabled = true; stats.setAttribute('aria-busy', 'true');
         message.textContent = 'Chargement du tableau de bord...';
         try {
-            const response = await fetch(`http://${window.location.hostname}:8080/api/admin/dashboard`, {
+            const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/admin/dashboard`, {
                 credentials: 'include', headers: { Accept: 'application/json' }
             });
             if (response.status === 401 || response.status === 403) throw new Error('Accès réservé aux administrateurs connectés. Vérifiez votre session.');
@@ -166,7 +166,7 @@
         try {
             const { user, kind } = action;
             const value = kind === 'role' ? roleSelect.value : user.status === 'ACTIVE' ? 'INACTIVE' : 'ACTIVE';
-            const response = await fetch(`http://${window.location.hostname}:8080/api/admin/users/${user.idUser}/${kind}`, {
+            const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/admin/users/${user.idUser}/${kind}`, {
                 method: 'PATCH', credentials: 'include', headers: { Accept: 'application/json', 'Content-Type': 'application/json' },
                 body: JSON.stringify({ [kind]: value })
             });

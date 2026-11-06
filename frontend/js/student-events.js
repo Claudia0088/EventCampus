@@ -78,7 +78,7 @@
 
     async function load() {
         try {
-            const response = await fetch(`http://${window.location.hostname}:8080/api/events`, {
+            const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/events`, {
                 credentials: 'include', headers: { Accept: 'application/json' }
             });
             if (response.status === 401 || response.status === 403) {

@@ -32,13 +32,16 @@
             status.textContent = 'Préparation de votre QR code…'; dialog.setAttribute('aria-busy', 'true');
             dialog.showModal(); close.focus(); request = new AbortController();
             try {
-                const response = await fetch(`http://${window.location.hostname}:8080/api/user/registrations/${item.idRegistration}/qr-code`, {
+                const response = await fetch(`${window.location.protocol === 'https:' ? window.location.origin : 'http://' + window.location.hostname + ':8080'}/api/user/registrations/${item.idRegistration}/qr-code`, {
                     method: 'POST', credentials: 'include', headers: { Accept: 'image/png, application/json' },
                     cache: 'no-store', signal: request.signal
                 });
                 if (!response.ok) {
                     const error = await response.json().catch(() => ({}));
-                    throw new Error(error.message || 'Impossible de charger le QR code. Vérifiez votre session et votre inscription.');
+                    throw new Error(error.message || (response.status === 401
+                        ? 'Session absente ou expirée. Reconnectez-vous.' : response.status === 403
+                            ? 'Accès refusé : reconnectez-vous avec le compte étudiant propriétaire de cette inscription.'
+                            : 'Impossible de charger le QR code. Réessayez.'));
                 }
                 if (!response.headers.get('Content-Type')?.startsWith('image/png')) throw new Error('Réponse QR invalide. Réessayez.');
                 const png = await response.blob();

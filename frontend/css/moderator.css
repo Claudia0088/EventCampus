@@ -52,3 +52,17 @@
     .moderator-profile { align-items: flex-start; flex-direction: column; }
     .moderator-panel, .moderation-card .event-card-content { padding: 22px; }
 }
+/* Confirmation de moderation, coherente avec les dialogues d'administration. */
+.moderation-dialog { width: min(94vw, 520px); max-height: 90vh; overflow: auto; margin: auto; padding: 30px; border: 1px solid var(--border-color); border-radius: var(--radius-card); background: var(--card-background); color: var(--text-main); box-shadow: var(--shadow-hover); }
+.moderation-dialog::backdrop { background: rgba(30, 41, 59, .35); }
+.moderation-dialog[open] { animation: moderation-dialog-enter .18s ease-out; }
+.moderation-dialog h2 { margin: 12px 0; }
+.moderation-dialog p { overflow-wrap: anywhere; }
+.moderation-dialog .moderation-dialog-event { padding: 12px 14px; border-radius: var(--radius-small); background: var(--campus-blue-pale); color: var(--campus-blue-dark); font-weight: 650; }
+.moderation-dialog #moderationConfirmStatus:empty { display: none; }
+.moderation-dialog #moderationConfirmStatus { color: var(--text-main); }
+.moderation-dialog-actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 12px; margin-top: 24px; }
+.moderation-dialog-actions button { min-height: 44px; white-space: normal; text-align: center; }
+@keyframes moderation-dialog-enter { from { opacity: 0; transform: translateY(8px) scale(.98); } to { opacity: 1; transform: translateY(0) scale(1); } }
+@media (max-width: 550px) { .moderation-dialog { padding: 22px; } .moderation-dialog-actions { flex-direction: column-reverse; } .moderation-dialog-actions button { width: 100%; } }
+@media (prefers-reduced-motion: reduce) { .moderation-dialog[open] { animation: none; } }
