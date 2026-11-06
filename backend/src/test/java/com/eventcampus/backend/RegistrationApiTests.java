@@ -2,7 +2,7 @@ package com.eventcampus.backend;
 import com.eventcampus.backend.service.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -18,8 +18,16 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
+@WebMvcTest(com.eventcampus.backend.controller.RegistrationController.class)
+@org.springframework.context.annotation.Import({com.eventcampus.backend.config.SecurityConfig.class})
+@org.springframework.boot.autoconfigure.ImportAutoConfiguration({org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration.class, org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration.class, org.springframework.boot.security.autoconfigure.web.servlet.SecurityFilterAutoConfiguration.class})
 class RegistrationApiTests {
+    @org.junit.jupiter.api.BeforeEach
+    void verifyNoDatabaseOrServerKeyComponents() {
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(javax.sql.DataSource.class).isEmpty());
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(jakarta.persistence.EntityManagerFactory.class).isEmpty());
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(com.eventcampus.backend.service.QrTokenCodec.class).isEmpty());
+    }
     @Autowired WebApplicationContext context; @Autowired FilterChainProxy security;
     @MockitoBean RegistrationService registrations; @MockitoBean AccountSessionService sessions;
     MockMvc mvc;

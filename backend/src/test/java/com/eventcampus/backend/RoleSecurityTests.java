@@ -3,7 +3,7 @@ package com.eventcampus.backend;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,9 +20,20 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@SpringBootTest
-@Import(RoleSecurityTests.ProbeController.class)
+@WebMvcTest({RoleSecurityTests.ProbeController.class, com.eventcampus.backend.controller.EventController.class, com.eventcampus.backend.controller.AuthController.class})
+@Import({com.eventcampus.backend.config.SecurityConfig.class, RoleSecurityTests.ProbeController.class})
+
+@org.springframework.boot.autoconfigure.ImportAutoConfiguration({org.springframework.boot.security.autoconfigure.SecurityAutoConfiguration.class, org.springframework.boot.security.autoconfigure.web.servlet.ServletWebSecurityAutoConfiguration.class, org.springframework.boot.security.autoconfigure.web.servlet.SecurityFilterAutoConfiguration.class})
 class RoleSecurityTests {
+    @org.springframework.test.context.bean.override.mockito.MockitoBean com.eventcampus.backend.service.EventService eventService;
+    @org.springframework.test.context.bean.override.mockito.MockitoBean com.eventcampus.backend.service.AuthService authService;
+    @org.springframework.test.context.bean.override.mockito.MockitoBean com.eventcampus.backend.service.RegisterService registerService;
+    @org.junit.jupiter.api.BeforeEach
+    void verifyNoDatabaseOrServerKeyComponents() {
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(javax.sql.DataSource.class).isEmpty());
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(jakarta.persistence.EntityManagerFactory.class).isEmpty());
+        org.junit.jupiter.api.Assertions.assertTrue(context.getBeansOfType(com.eventcampus.backend.service.QrTokenCodec.class).isEmpty());
+    }
     // These HTTP tests construct synthetic sessions; account freshness is tested separately.
     @org.springframework.test.context.bean.override.mockito.MockitoBean
     com.eventcampus.backend.service.AccountSessionService accountSessions;
