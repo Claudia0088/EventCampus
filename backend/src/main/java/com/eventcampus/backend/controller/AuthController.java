@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.web.context.SecurityContextRepository;
 import org.springframework.web.bind.annotation.*;
 
@@ -38,14 +39,17 @@ public class AuthController {
     private final AuthService authService;
     private final RegisterService registerService;
     private final SecurityContextRepository securityContextRepository;
+    private final SessionRegistry sessionRegistry;
 
     public AuthController(
             AuthService authService,
             RegisterService registerService,
-            SecurityContextRepository securityContextRepository) {
+            SecurityContextRepository securityContextRepository,
+            SessionRegistry sessionRegistry) {
         this.authService = authService;
         this.registerService = registerService;
         this.securityContextRepository = securityContextRepository;
+        this.sessionRegistry = sessionRegistry;
     }
 
     @PostMapping("/login")
@@ -72,6 +76,7 @@ public class AuthController {
         if (user == null
                 || user.getRole() == null
                 || user.getRole().getName() == null) {
+            
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(
                     Map.of("message", "E-mail ou mot de passe incorrect.")
             );
@@ -93,10 +98,16 @@ public class AuthController {
 
         HttpSession oldSession = httpRequest.getSession(false);
         if (oldSession != null) {
+            sessionRegistry.removeSessionInformation(oldSession.getId());
             oldSession.invalidate();
         }
 
-        httpRequest.getSession(true);
+        HttpSession newSession = httpRequest.getSession(true);
+
+        sessionRegistry.registerNewSession(
+                newSession.getId(),
+                user.getEmail()
+        );
 
         securityContextRepository.saveContext(
                 context, httpRequest, response

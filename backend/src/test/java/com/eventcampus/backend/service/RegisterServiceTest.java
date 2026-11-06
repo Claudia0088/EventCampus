@@ -26,7 +26,7 @@ class RegisterServiceTest {
     private final UserRepository userRepository = mock(UserRepository.class);
     private final RoleRepository roleRepository = mock(RoleRepository.class);
     private final RegisterService registerService =
-            new RegisterService(userRepository, roleRepository);
+            new RegisterService(userRepository, roleRepository, null);
 
     @Test
     void registerSavesUserWithUserRoleAndBcryptPassword() {
