@@ -91,8 +91,34 @@
             <artifactId>spring-boot-starter-webmvc-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
     </dependencies>
 
+    <profiles>
+        <profile>
+            <id>mysql-it</id>
+            <build><plugins><plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <includes>
+                        <include>**/BackendApplicationTests.java</include>
+                        <include>**/AdminDashboardTests.java</include>
+                        <include>**/EventApiTests.java</include>
+                        <include>**/MysqlPersistenceIT.java</include>
+                    </includes>
+                    <systemPropertyVariables>
+                        <eventcampus.mysql-it.enabled>true</eventcampus.mysql-it.enabled>
+                        <spring.config.location>classpath:/application-mysql-it.properties</spring.config.location>
+                    </systemPropertyVariables>
+                </configuration>
+            </plugin></plugins></build>
+        </profile>
+    </profiles>
     <build>
         <plugins>
             <plugin>

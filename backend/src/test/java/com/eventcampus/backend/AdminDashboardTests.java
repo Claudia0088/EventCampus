@@ -3,7 +3,7 @@ package com.eventcampus.backend;
 import com.eventcampus.backend.repository.*;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.eventcampus.backend.mysqlit.IsolatedMysqlTestBase;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,8 +17,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
-@SpringBootTest
-class AdminDashboardTests {
+class AdminDashboardTests extends IsolatedMysqlTestBase {
     // These HTTP tests construct synthetic sessions; account freshness is tested separately.
     @org.springframework.test.context.bean.override.mockito.MockitoBean
     com.eventcampus.backend.service.AccountSessionService accountSessions;

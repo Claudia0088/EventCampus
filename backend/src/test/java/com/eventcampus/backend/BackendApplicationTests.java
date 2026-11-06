@@ -1,10 +1,9 @@
 package com.eventcampus.backend;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
+import com.eventcampus.backend.mysqlit.IsolatedMysqlTestBase;
 
-@SpringBootTest
-class BackendApplicationTests {
+class BackendApplicationTests extends IsolatedMysqlTestBase {
 
 	@Test
 	void contextLoads() {
