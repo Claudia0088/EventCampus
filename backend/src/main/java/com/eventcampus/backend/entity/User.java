@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
 
-import org.jspecify.annotations.Nullable;
+
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -41,6 +41,10 @@ public class User {
 
     public User() {
     }
+
+    public void setIdUser(Integer idUser) { this.idUser = idUser; }
+
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
     public Integer getIdUser() {
     return idUser;

@@ -30,10 +30,10 @@ public class AuthService {
         }
 
         User user = userRepository
-                .findByEmail(email.trim().toLowerCase())
+                .findByEmail(email.trim().toLowerCase(java.util.Locale.ROOT))
                 .orElse(null);
 
-        if (user == null || user.getPassword() == null) {
+        if (user == null || user.getPassword() == null || !"ACTIVE".equals(user.getStatus())) {
             return null;
         }
 
@@ -78,7 +78,7 @@ public class AuthService {
         }
 
         return userRepository
-                .findByEmail(email.trim().toLowerCase())
+                .findByEmail(email.trim().toLowerCase(java.util.Locale.ROOT))
                 .orElse(null);
     }
 }

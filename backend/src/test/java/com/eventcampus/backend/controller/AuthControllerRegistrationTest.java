@@ -42,6 +42,9 @@ class AuthControllerRegistrationTest {
     @MockitoBean
     private RegisterService registerService;
 
+    @MockitoBean
+    private com.eventcampus.backend.service.AccountSessionService accountSessions;
+
     @Test
     void registerReturnsCreatedWithoutReturningPassword() throws Exception {
         User user = new User();
