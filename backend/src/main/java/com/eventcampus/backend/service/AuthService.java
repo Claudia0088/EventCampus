@@ -4,7 +4,6 @@ package com.eventcampus.backend.service;
 import com.eventcampus.backend.entity.User;
 import com.eventcampus.backend.repository.UserRepository;
 
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +14,9 @@ public class AuthService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public AuthService(UserRepository userRepository,
-                        PasswordEncoder passwordEncoder) {
+    public AuthService(
+            UserRepository userRepository,
+            PasswordEncoder passwordEncoder) {
 
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
@@ -39,11 +39,17 @@ public class AuthService {
             return null;
         }
 
+        // Refuser les comptes désactivés
+        if (user.getStatus() == null
+                || !"ACTIVE".equalsIgnoreCase(user.getStatus())) {
+            return null;
+        }
+
         String storedPassword = user.getPassword();
 
         boolean passwordMatches;
 
-        // Vérification des mots de passe déjà chiffrés avec BCrypt
+        // Vérification BCrypt
         if (storedPassword.startsWith("$2a$")
                 || storedPassword.startsWith("$2b$")
                 || storedPassword.startsWith("$2y$")) {
@@ -54,8 +60,7 @@ public class AuthService {
             );
 
         } else {
-            // Compatibilité temporaire avec les anciens mots de passe
-            // enregistrés en clair, puis migration vers BCrypt.
+            // Migration temporaire des anciens mots de passe en clair
             passwordMatches = storedPassword.equals(password);
 
             if (passwordMatches) {

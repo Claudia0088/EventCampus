@@ -1,3 +1,4 @@
+
 package com.eventcampus.backend.repository;
 
 import com.eventcampus.backend.entity.User;
@@ -8,6 +9,13 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Integer> {
 
     Optional<User> findByEmail(String email);
+
     boolean existsByEmail(String email);
+
     long countByRole_Name(String roleName);
+
+    long countByRole_NameAndStatusIgnoreCase(
+            String roleName,
+            String status
+    );
 }
