@@ -22,6 +22,9 @@ public class RoleManagementService {
     private static final Set<String> ALLOWED_ROLES =
             Set.of("USER", "MODERATOR", "ADMIN");
 
+    private static final Set<String> ALLOWED_STATUSES =
+            Set.of("ACTIVE", "INACTIVE");
+
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final SessionRegistry sessionRegistry;
@@ -36,7 +39,6 @@ public class RoleManagementService {
         this.sessionRegistry = sessionRegistry;
     }
 
-    // Récupérer tous les utilisateurs
     @Transactional(readOnly = true)
     public List<AdminUserResponse> listUsers() {
 
@@ -46,7 +48,6 @@ public class RoleManagementService {
                 .toList();
     }
 
-    // Récupérer les rôles disponibles
     @Transactional(readOnly = true)
     public List<String> listRoles() {
 
@@ -57,7 +58,6 @@ public class RoleManagementService {
                 .toList();
     }
 
-    // Modifier le rôle d'un utilisateur
     @Transactional
     public AdminUserResponse changeUserRole(
             Integer userId,
@@ -70,43 +70,26 @@ public class RoleManagementService {
             );
         }
 
-        if (administratorEmail == null || administratorEmail.isBlank()) {
-            throw new IllegalArgumentException(
-                    "Administrateur non identifié."
-            );
-        }
+        validateAdministrator(administratorEmail);
 
-        String roleName = requestedRole
-                .trim()
+        String roleName = requestedRole.trim()
                 .toUpperCase(Locale.ROOT);
 
-        // Vérifier que le rôle est autorisé
         if (!ALLOWED_ROLES.contains(roleName)) {
             throw new IllegalArgumentException(
                     "Rôle non autorisé. Valeurs possibles : USER, MODERATOR, ADMIN."
             );
         }
 
-        // Rechercher l'utilisateur
-        User user = userRepository.findById(userId)
-                .orElseThrow(() ->
-                        new UserNotFoundException(
-                                "Utilisateur introuvable."
-                        )
-                );
+        User user = findUser(userId);
 
-        // Empêcher l'administrateur de modifier son propre rôle
-        if (user.getEmail().equalsIgnoreCase(administratorEmail)) {
-            throw new IllegalArgumentException(
-                    "Vous ne pouvez pas modifier votre propre rôle."
-            );
-        }
+        preventSelfModification(user, administratorEmail);
 
-        // Rechercher le rôle dans la base de données
         Role newRole = roleRepository.findByName(roleName)
                 .orElseThrow(() ->
                         new IllegalArgumentException(
-                                "Le rôle " + roleName + " n'existe pas dans la base de données."
+                                "Le rôle " + roleName
+                                + " n'existe pas dans la base de données."
                         )
                 );
 
@@ -114,12 +97,10 @@ public class RoleManagementService {
                 .getName()
                 .toUpperCase(Locale.ROOT);
 
-        // Éviter un changement inutile
         if (currentRole.equals(roleName)) {
             return toResponse(user);
         }
 
-        // Empêcher la rétrogradation du dernier administrateur
         if ("ADMIN".equals(currentRole)
                 && !"ADMIN".equals(roleName)
                 && userRepository.countByRole_Name("ADMIN") <= 1) {
@@ -129,24 +110,122 @@ public class RoleManagementService {
             );
         }
 
-        // Enregistrer le nouveau rôle
         user.setRole(newRole);
 
         User savedUser = userRepository.save(user);
 
-        // Invalider les sessions de l'utilisateur concerné
-        List<SessionInformation> sessions =
-                sessionRegistry.getAllSessions(
-                        savedUser.getEmail(),
-                        false
-                );
-
-        sessions.forEach(SessionInformation::expireNow);
+        invalidateUserSessions(savedUser.getEmail());
 
         return toResponse(savedUser);
     }
 
-    // Transformer une entité User en réponse sécurisée
+    @Transactional
+    public AdminUserResponse changeUserStatus(
+            Integer userId,
+            String requestedStatus,
+            String administratorEmail) {
+
+        if (requestedStatus == null || requestedStatus.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Le statut est obligatoire."
+            );
+        }
+
+        validateAdministrator(administratorEmail);
+
+        String newStatus = requestedStatus.trim()
+                .toUpperCase(Locale.ROOT);
+
+        if (!ALLOWED_STATUSES.contains(newStatus)) {
+            throw new IllegalArgumentException(
+                    "Statut non autorisé. Valeurs possibles : ACTIVE, INACTIVE."
+            );
+        }
+
+        User user = findUser(userId);
+
+        preventSelfModification(user, administratorEmail);
+
+        String currentStatus = user.getStatus() == null
+                ? ""
+                : user.getStatus().toUpperCase(Locale.ROOT);
+
+        if (currentStatus.equals(newStatus)) {
+            return toResponse(user);
+        }
+
+        String currentRole = user.getRole()
+                .getName()
+                .toUpperCase(Locale.ROOT);
+
+        // Protéger le dernier administrateur actif.
+        if ("ADMIN".equals(currentRole)
+                && "ACTIVE".equals(currentStatus)
+                && "INACTIVE".equals(newStatus)
+                && userRepository.countByRole_NameAndStatusIgnoreCase(
+                        "ADMIN", "ACTIVE") <= 1) {
+
+            throw new IllegalStateException(
+                    "Impossible de désactiver le dernier administrateur actif."
+            );
+        }
+
+        user.setStatus(newStatus);
+
+        User savedUser = userRepository.save(user);
+
+        // Un compte désactivé ne doit plus conserver de session active.
+        if ("INACTIVE".equals(newStatus)) {
+            invalidateUserSessions(savedUser.getEmail());
+        }
+
+        return toResponse(savedUser);
+    }
+
+    private void validateAdministrator(String administratorEmail) {
+
+        if (administratorEmail == null || administratorEmail.isBlank()) {
+            throw new IllegalArgumentException(
+                    "Administrateur non identifié."
+            );
+        }
+    }
+
+    private User findUser(Integer userId) {
+
+        if (userId == null) {
+            throw new IllegalArgumentException(
+                    "Identifiant utilisateur invalide."
+            );
+        }
+
+        return userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new UserNotFoundException(
+                                "Utilisateur introuvable."
+                        )
+                );
+    }
+
+    private void preventSelfModification(
+            User user,
+            String administratorEmail) {
+
+        if (user.getEmail().equalsIgnoreCase(administratorEmail)) {
+            throw new IllegalArgumentException(
+                    "Vous ne pouvez pas modifier votre propre compte."
+            );
+        }
+    }
+
+    private void invalidateUserSessions(String email) {
+
+        List<SessionInformation> sessions =
+                sessionRegistry.getAllSessions(email, false);
+
+        sessions.forEach(SessionInformation::expireNow);
+    }
+
     private AdminUserResponse toResponse(User user) {
 
         return new AdminUserResponse(
@@ -162,7 +241,6 @@ public class RoleManagementService {
         );
     }
 
-    // Exception si l'utilisateur n'existe pas
     public static class UserNotFoundException
             extends RuntimeException {
 
