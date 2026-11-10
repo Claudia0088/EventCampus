@@ -37,7 +37,8 @@ public class RegistrationService {
     }
     private Availability availability(Event event) {
         long used = registrations.countByEvent_IdEventAndStatus(event.getIdEvent(), "REGISTERED");
-        return new Availability(event.getIdEvent(), event.getCapacity(), Math.max(0, event.getCapacity() - used), future(event));
+        long remaining = Math.max(0, event.getCapacity() - used);
+        return new Availability(event.getIdEvent(), event.getCapacity(), remaining, future(event) && remaining > 0);
     }
     private boolean canViewQr(Registration registration) {
         if (!QrCodeService.eligible(registration)) return false;
